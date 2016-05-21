@@ -1,0 +1,779 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Redis," />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言Redis作为cache服务器，支持多种数据结构，String、List、Hash、Set、Zset。多种数据结构的存在，使得Redis适用于多种业务,Redis的适用也越发广泛，本文就介绍Redis中最简单的数据结构String的操作命令。
+
+简介String类似memcache的结构，即最简单的 key-value 结构，一个Key对应一个简单的value,简单明了.
+命令简介
+SET语法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis 数据结构之 String">
+<meta property="og:url" content="http://yoursite.com/2016/05/21/redis-string/index.html">
+<meta property="og:site_name" content="小小小码农">
+<meta property="og:description" content="前言Redis作为cache服务器，支持多种数据结构，String、List、Hash、Set、Zset。多种数据结构的存在，使得Redis适用于多种业务,Redis的适用也越发广泛，本文就介绍Redis中最简单的数据结构String的操作命令。
+
+简介String类似memcache的结构，即最简单的 key-value 结构，一个Key对应一个简单的value,简单明了.
+命令简介
+SET语法">
+<meta property="og:updated_time" content="2016-05-21T04:39:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis 数据结构之 String">
+<meta name="twitter:description" content="前言Redis作为cache服务器，支持多种数据结构，String、List、Hash、Set、Zset。多种数据结构的存在，使得Redis适用于多种业务,Redis的适用也越发广泛，本文就介绍Redis中最简单的数据结构String的操作命令。
+
+简介String类似memcache的结构，即最简单的 key-value 结构，一个Key对应一个简单的value,简单明了.
+命令简介
+SET语法">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Redis 数据结构之 String | 小小小码农 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">小小小码农</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Redis 数据结构之 String
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-21T10:31:23+08:00" content="2016-05-21">
+              2016-05-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Redis/" itemprop="url" rel="index">
+                    <span itemprop="name">Redis</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/21/redis-string/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/21/redis-string/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><strong>Redis</strong>作为cache服务器，支持多种数据结构，String、List、Hash、Set、Zset。多种数据结构的存在，使得<code>Redis</code>适用于多种业务,Redis的适用也越发广泛，本文就介绍Redis中最简单的数据结构<code>String</code>的操作命令。</p>
+<hr>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><strong>String</strong>类似<code>memcache</code>的结构，即最简单的 key-value 结构，一个Key对应一个简单的value,简单明了.</p>
+<h2 id="命令简介"><a href="#命令简介" class="headerlink" title="命令简介"></a>命令简介</h2><hr>
+<h3 id="SET"><a href="#SET" class="headerlink" title="SET"></a>SET</h3><p>语法： SET key value [NX] [XX] [EX <seconds>] [PX [millseconds]] 设置一对key value<br><strong>必选参数说明</strong><br><code>SET</code>：命令<br><code>key</code>：待设置的key<br><code>value</code>: 设置的key的value<br><strong>可选参数说明</strong><br><code>NX</code>：表示key不存在才设置，如果存在则返回NULL<br><code>XX</code>：表示key存在时才设置，如果不存在则返回NULL<br><code>EX seconds</code>：设置过期时间，过期时间精确为秒<br><code>PX millsecond</code>：设置过期时间，过期时间精确为毫秒</seconds></p>
+<p>设置一对 key value 不带任何可选参数<br>SET key value  </p>
+<blockquote>
+<p>127.0.0.1:6379&gt; SET key value<br>OK<br>成功</p>
+</blockquote>
+<p>设置一对 key(已存在) value，带可选参数 <code>NX</code>  </p>
+<blockquote>
+<p>127.0.0.1:6379&gt; SET key value NX<br>(nil)<br><code>key</code> 已经存在，所以设置失败，返回 nil</p>
+</blockquote>
+<p>设置一对 key(不存在) value，带可选参数 NX  </p>
+<blockquote>
+<p>127.0.0.1:6379&gt; SET key1 value1 NX<br>OK<br><code>key1</code>不存在，所以设置成功，返回 OK</p>
+</blockquote>
+<p>设置一对 key(不存在) value，带可选参数 <code>XX</code></p>
+<blockquote>
+<p>127.0.0.1:6379&gt; SET key3 value3 XX<br>(nil)<br><code>key3</code> 不存在，所以设置失败</p>
+</blockquote>
+<p>设置一对 key(存在) value，带可选参数 <code>XX</code></p>
+<blockquote>
+<p>127.0.0.1:6379&gt; SET key value3 XX<br>OK<br><code>key</code>存在,所以设置成功</p>
+</blockquote>
+<p>设置一对 key(存在) value，带可选参数 <code>EX</code></p>
+<blockquote>
+<p>127.0.0.1:6379&gt; SET key value EX 10086<br>OK<br>127.0.0.1:6379&gt; ttl key<br>(integer) 10084  </p>
+</blockquote>
+<p>设置一对 key(存在) value，带可选参数 <code>PX</code></p>
+<blockquote>
+<p>127.0.0.1:6379&gt; SET key value PX 10086000<br>OK<br>127.0.0.1:6379&gt; ttl key<br>(integer) 10085</p>
+</blockquote>
+<p><code>EX</code>与<code>PX</code>参数都是设置key的过期时间，差异为一个单位为<code>秒</code>一个单位为<code>毫秒</code></p>
+<hr>
+<h3 id="SETNX"><a href="#SETNX" class="headerlink" title="SETNX"></a>SETNX</h3><p>语法：SETNX key value<br>所有参数为<code>必选</code>参数,设置一对key value，如果key存在，则设置失败，等同于  SET key value NX</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; SETNX key value<br>(integer) 0<br><code>key</code>已经存在，设置失败</p>
+</blockquote>
+<hr>
+<h3 id="SETEX"><a href="#SETEX" class="headerlink" title="SETEX"></a>SETEX</h3><p>语法：SETEX key expire value<br>所有参数为必选参数，设置一对 key value，并设过期时间,单位为秒，等同于 SET key value <code>EX expire</code></p>
+<blockquote>
+<p>127.0.0.1:6379&gt; SETEX key 10086 value<br>OK<br>127.0.0.1:6379&gt; ttl key<br>(integer) 10084  </p>
+</blockquote>
+<hr>
+<h3 id="PSETEX"><a href="#PSETEX" class="headerlink" title="PSETEX"></a>PSETEX</h3><p>语法：PSETEX key expire value<br>所有参数为必选参数，设置一对 key value，并设过期时间,单位为毫秒，等同于 SET key value <code>PX expire</code></p>
+<blockquote>
+<p>127.0.0.1:6379&gt; PSETEX key 10086000 value<br>OK<br>127.0.0.1:6379&gt; ttl key<br>(integer) 10084  </p>
+</blockquote>
+<hr>
+<h3 id="GET"><a href="#GET" class="headerlink" title="GET"></a>GET</h3><p>语法： GET key<br>所有参数为必选参数，获取指定<code>key</code>的value,成功返回对应的 <code>value</code>，失败返回 <code>NULL</code></p>
+<blockquote>
+<p>127.0.0.1:6379&gt; GET key<br>“value”<br>127.0.0.1:6379&gt; GET Keykk<br>(nil)</p>
+</blockquote>
+<hr>
+<h3 id="GETSET"><a href="#GETSET" class="headerlink" title="GETSET"></a>GETSET</h3><p>语法：GETSET key value<br>所有参数为必选参数，获取指定<code>key</code>的value，并设置<code>key</code>的值为新值<code>value</code></p>
+<blockquote>
+<p>127.0.0.1:6379&gt; GETSET key valuevalue<br>“value”<br>127.0.0.1:6379&gt; GET key<br>“valuevalue”</p>
+</blockquote>
+<hr>
+<h3 id="SETRANGE"><a href="#SETRANGE" class="headerlink" title="SETRANGE"></a>SETRANGE</h3><p>语法：SETRANGE key offset value<br>所有参数为必选参数，设置指定<code>key</code>，偏移量<code>offset</code>后的值为<code>value</code>，影响范围为<code>value</code>的长度， <code>offset</code>不能小于0  </p>
+<blockquote>
+<p>127.0.0.1:6379&gt; GET key<br>“valuevalue”<br>127.0.0.1:6379&gt; SETRANGE key 2 kk<br>(integer) 10<br>127.0.0.1:6379&gt; GET key<br>“vakkevalue”</p>
+</blockquote>
+<hr>
+<h3 id="GETRANGE"><a href="#GETRANGE" class="headerlink" title="GETRANGE"></a>GETRANGE</h3><p>语法：GETRANGE key start end<br>所有参数为必选参数，获取指定key指定区间的value值,<br><code>start</code>、<code>end</code>可以为负数，如果为负数则反向取区间  </p>
+<blockquote>
+<p>127.0.0.1:6379&gt; GET key<br>“vakkevalue”<br>127.0.0.1:6379&gt; GETRANGE key 2 5<br>“kkev”<br>127.0.0.1:6379&gt; GETRANGE key -5 -2<br>“valu”</p>
+</blockquote>
+<hr>
+<h3 id="MGET"><a href="#MGET" class="headerlink" title="MGET"></a>MGET</h3><p>语法：MGET key1 [key2 key3 …]<br>所有参数为必选，key值至少为一个，获取多个key的value值，key值存的返回对应的value，不存在的返回NULL</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; MGET key  keykey key1 key1234<br>1) “vakkevalue”<br>2) (nil)<br>3) “value1”<br>4) (nil)  </p>
+</blockquote>
+<hr>
+<h3 id="MSET"><a href="#MSET" class="headerlink" title="MSET"></a>MSET</h3><p>语法：MSET key1 value1 [key2 value2 key3 value3 …]<br>所有参数为必选，<code>key</code>、<code>value</code>对至少为一对。该命令功能是设置多对<code>key-value</code>值。</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; MSET key1 v1 key2 v2 key3 v3<br>OK<br>127.0.0.1:6379&gt; MGET key1 key2 key3<br>1) “v1”<br>2) “v2”<br>3) “v3”</p>
+</blockquote>
+<hr>
+<h3 id="MSETNX"><a href="#MSETNX" class="headerlink" title="MSETNX"></a>MSETNX</h3><p>语法：MSETNX key1 value1 [key2 value2 key3 value3 …]  所有参数为必选，<code>key</code>、<code>value</code>对至少为一对。该命令功能是设置多对<code>key-value</code>值,如果<code>key</code>存在，则不做任何操作。</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; MGET key1 key2 key3<br>1) “v1”<br>2) (nil)<br>3) “v3”<br>127.0.0.1:6379&gt; MSETNX key1 v11 key2 v12 key3 v13<br>(integer) 0<br>127.0.0.1:6379&gt; MGET key1 key2 key3<br>1) “v1”<br>2) (nil)<br>3) “v3”<br>127.0.0.1:6379&gt; MSETNX key11 v11 key12 v12 key13 v13<br>(integer) 1<br>127.0.0.1:6379&gt; MGET key11 key12 key13<br>1) “v11”<br>2) “v12”<br>3) “v13”  </p>
+</blockquote>
+<hr>
+<h3 id="INCR"><a href="#INCR" class="headerlink" title="INCR"></a>INCR</h3><p>语法： INCR key<br>所有参数为必选，指定<code>key</code>做加1操作。指定<code>key</code>对应的值必须为整型，否则返回错误,操作成功后返回操作后的值</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; GET key<br>“vakkevalue”<br>127.0.0.1:6379&gt; INCR key<br>(error) ERR value is not an integer or out of range  &gt;127.0.0.1:6379&gt; SET key 100<br>OK<br>127.0.0.1:6379&gt; INCR key<br>(integer) 101</p>
+</blockquote>
+<hr>
+<h3 id="DECR"><a href="#DECR" class="headerlink" title="DECR"></a>DECR</h3><p>语法： DECR key<br>所有参数为必选，指定<code>key</code>做减1操作。指定<code>key</code>对应的值必须为整型，否则返回错误,操作成功后返回操作后的值。为<code>DECR</code>的逆操作。</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; DECR key<br>(integer) 100</p>
+</blockquote>
+<hr>
+<h3 id="INCRBY"><a href="#INCRBY" class="headerlink" title="INCRBY"></a>INCRBY</h3><p>语法：INCRBY key data<br>所有参数为必选参数，指定<code>key</code>做加<code>data</code>操作,指定<code>key</code>对应的值和<code>data</code>必须为整型，否则返回错误,操作成功后返回操作后的值  </p>
+<blockquote>
+<p>27.0.0.1:6379&gt; INCRBY key djfklaj<br>(error) ERR value is not an integer or out of range<br>127.0.0.1:6379&gt; INCRBY key 20<br>(integer) 120</p>
+</blockquote>
+<hr>
+<h3 id="DECRBY"><a href="#DECRBY" class="headerlink" title="DECRBY"></a>DECRBY</h3><p>语法：DECRBY key data<br>所有参数为必选参数，指定<code>key</code>做减<code>data</code>操作,指定<code>key</code>对应的值和<code>data</code>必须为整型，否则返回错误,操作成功后返回操作后的值  </p>
+<blockquote>
+<p>127.0.0.1:6379&gt; DECRBY key 10<br>(integer) 110</p>
+</blockquote>
+<hr>
+<h3 id="INCRBYFLOAT"><a href="#INCRBYFLOAT" class="headerlink" title="INCRBYFLOAT"></a>INCRBYFLOAT</h3><p>语法：INCRBYFLOAT key data<br>所有参数为必选参数，对指定<code>key</code>做加<code>data</code>操作，<code>data</code>为浮点型数据，<code>key</code>对应的value也必须为数值类型，否则返回错误。操作成功后返回操作后的数值  </p>
+<blockquote>
+<p>127.0.0.1:6379&gt; GET key<br>“22.22”<br>127.0.0.1:6379&gt; INCRBYFLOAT key 1.1<br>“23.32”<br>127.0.0.1:6379&gt; GET nonumber<br>“kdjfl”<br>127.0.0.1:6379&gt; INCRBYFLOAT nonumber 1.1<br>(error) ERR value is not a valid float   </p>
+</blockquote>
+<hr>
+<h3 id="APPEND"><a href="#APPEND" class="headerlink" title="APPEND"></a>APPEND</h3><p>语法：APPEN key appendvalue<br>所有参数为必选参数，在指定<code>key</code>的<code>value</code>值后追加<code>appendvalue</code>,操作成功后返回新值得长度，如果<code>key</code>对应的<code>value</code>不存在，则以<code>appendvalue</code>创建一个新值</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; GET key<br>“test”<br>127.0.0.1:6379&gt; APPEND key append<br>(integer) 10<br>127.0.0.1:6379&gt; GET key<br>“testappend”<br>127.0.0.1:6379&gt; GET append<br>(nil)<br>127.0.0.1:6379&gt; APPEND append append<br>(integer) 6<br>127.0.0.1:6379&gt; GET append<br>“append”  </p>
+</blockquote>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>  Redis String 数据结构看之简单，实则大有乾坤，有待探寻。String类型提供了丰富的操作命令，可以满足大部分针对String的操作要求。工具已提供，怎么用就看个人能力了。</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Redis/" rel="tag">#Redis</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/06/C_Define/" rel="next" title="C/C++ 宏定义使用">
+                <i class="fa fa-chevron-left"></i> C/C++ 宏定义使用
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/21/redis-string/"
+           data-title="Redis 数据结构之 String" data-url="http://yoursite.com/2016/05/21/redis-string/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/images/Ball.jpg"
+               alt="Kevin" />
+          <p class="site-author-name" itemprop="name">Kevin</p>
+          <p class="site-description motion-element" itemprop="description">男子千年志，吾生未有涯</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/XiaoxiaoxiaoCoder" target="_blank" title="github">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2145322534" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/187a415da474/latest_articles" target="_blank" title="jianshu">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  jianshu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">2.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令简介"><span class="nav-number">3.</span> <span class="nav-text">命令简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SET"><span class="nav-number">3.1.</span> <span class="nav-text">SET</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SETNX"><span class="nav-number">3.2.</span> <span class="nav-text">SETNX</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SETEX"><span class="nav-number">3.3.</span> <span class="nav-text">SETEX</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PSETEX"><span class="nav-number">3.4.</span> <span class="nav-text">PSETEX</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GET"><span class="nav-number">3.5.</span> <span class="nav-text">GET</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GETSET"><span class="nav-number">3.6.</span> <span class="nav-text">GETSET</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SETRANGE"><span class="nav-number">3.7.</span> <span class="nav-text">SETRANGE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GETRANGE"><span class="nav-number">3.8.</span> <span class="nav-text">GETRANGE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MGET"><span class="nav-number">3.9.</span> <span class="nav-text">MGET</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MSET"><span class="nav-number">3.10.</span> <span class="nav-text">MSET</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MSETNX"><span class="nav-number">3.11.</span> <span class="nav-text">MSETNX</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#INCR"><span class="nav-number">3.12.</span> <span class="nav-text">INCR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DECR"><span class="nav-number">3.13.</span> <span class="nav-text">DECR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#INCRBY"><span class="nav-number">3.14.</span> <span class="nav-text">INCRBY</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DECRBY"><span class="nav-number">3.15.</span> <span class="nav-text">DECRBY</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#INCRBYFLOAT"><span class="nav-number">3.16.</span> <span class="nav-text">INCRBYFLOAT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#APPEND"><span class="nav-number">3.17.</span> <span class="nav-text">APPEND</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kevin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"xiaoxiaoxiaocoder"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
