@@ -92,7 +92,7 @@ SET语法">
 简介String类似memcache的结构，即最简单的 key-value 结构，一个Key对应一个简单的value,简单明了.
 命令简介
 SET语法">
-<meta property="og:updated_time" content="2016-05-21T04:39:39.000Z">
+<meta property="og:updated_time" content="2016-05-22T23:53:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis 数据结构之 String">
 <meta name="twitter:description" content="前言Redis作为cache服务器，支持多种数据结构，String、List、Hash、Set、Zset。多种数据结构的存在，使得Redis适用于多种业务,Redis的适用也越发广泛，本文就介绍Redis中最简单的数据结构String的操作命令。
@@ -410,7 +410,7 @@ SET语法">
 <hr>
 <h3 id="INCR"><a href="#INCR" class="headerlink" title="INCR"></a>INCR</h3><p>语法： INCR key<br>所有参数为必选，指定<code>key</code>做加1操作。指定<code>key</code>对应的值必须为整型，否则返回错误,操作成功后返回操作后的值</p>
 <blockquote>
-<p>127.0.0.1:6379&gt; GET key<br>“vakkevalue”<br>127.0.0.1:6379&gt; INCR key<br>(error) ERR value is not an integer or out of range  &gt;127.0.0.1:6379&gt; SET key 100<br>OK<br>127.0.0.1:6379&gt; INCR key<br>(integer) 101</p>
+<p>127.0.0.1:6379&gt; GET key<br>“vakkevalue”<br>127.0.0.1:6379&gt; INCR key<br>(error) ERR value is not an integer or out of range<br>127.0.0.1:6379&gt; SET key 100<br>OK<br>127.0.0.1:6379&gt; INCR key<br>(integer) 101</p>
 </blockquote>
 <hr>
 <h3 id="DECR"><a href="#DECR" class="headerlink" title="DECR"></a>DECR</h3><p>语法： DECR key<br>所有参数为必选，指定<code>key</code>做减1操作。指定<code>key</code>对应的值必须为整型，否则返回错误,操作成功后返回操作后的值。为<code>DECR</code>的逆操作。</p>
