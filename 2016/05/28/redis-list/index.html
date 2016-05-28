@@ -1,0 +1,841 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="redis," />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言Redis作为cache服务器，支持多种数据结构，String、List、Hash、Set、Zset。多种数据结构的存在，使得Redis适用于多种业务,Redis的适用也越发广泛，本文就介绍Redis中最简单的数据结构List的操作命令。
+
+简介List顾名思义，即链表、队列。即一个key对应的value为一个队列,支持头插、尾插等操作。
+
+命令简介[LR]PUSH 命令语法: [LR]PUS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis 数据结构之 list">
+<meta property="og:url" content="http://yoursite.com/2016/05/28/redis-list/index.html">
+<meta property="og:site_name" content="小小小码农">
+<meta property="og:description" content="前言Redis作为cache服务器，支持多种数据结构，String、List、Hash、Set、Zset。多种数据结构的存在，使得Redis适用于多种业务,Redis的适用也越发广泛，本文就介绍Redis中最简单的数据结构List的操作命令。
+
+简介List顾名思义，即链表、队列。即一个key对应的value为一个队列,支持头插、尾插等操作。
+
+命令简介[LR]PUSH 命令语法: [LR]PUS">
+<meta property="og:updated_time" content="2016-05-28T06:57:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis 数据结构之 list">
+<meta name="twitter:description" content="前言Redis作为cache服务器，支持多种数据结构，String、List、Hash、Set、Zset。多种数据结构的存在，使得Redis适用于多种业务,Redis的适用也越发广泛，本文就介绍Redis中最简单的数据结构List的操作命令。
+
+简介List顾名思义，即链表、队列。即一个key对应的value为一个队列,支持头插、尾插等操作。
+
+命令简介[LR]PUSH 命令语法: [LR]PUS">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Redis 数据结构之 list | 小小小码农 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">小小小码农</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Redis 数据结构之 list
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-28T13:23:18+08:00" content="2016-05-28">
+              2016-05-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Redis/" itemprop="url" rel="index">
+                    <span itemprop="name">Redis</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/28/redis-list/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/28/redis-list/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><strong>Redis</strong>作为cache服务器，支持多种数据结构，String、List、Hash、Set、Zset。多种数据结构的存在，使得<code>Redis</code>适用于多种业务,Redis的适用也越发广泛，本文就介绍Redis中最简单的数据结构<code>List</code>的操作命令。</p>
+<hr>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><code>List</code>顾名思义，即链表、队列。即一个<code>key</code>对应的<code>value</code>为一个队列,支持头插、尾插等操作。</p>
+<hr>
+<h2 id="命令简介"><a href="#命令简介" class="headerlink" title="命令简介"></a>命令简介</h2><h3 id="LR-PUSH-命令"><a href="#LR-PUSH-命令" class="headerlink" title="[LR]PUSH 命令"></a>[LR]PUSH 命令</h3><p><code>语法</code>: [LR]PUSH key value1 [value2 …]<br><code>作用</code>: 以头插或尾插方式插入指定<code>key</code>队列中一个或多个元素<br><code>返回</code>: 成功返回插入后的队列中元素个数</p>
+<p>头插法插入N个元素  </p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LPUSH list val1 val2 val3<br>(integer) 3</p>
+</blockquote>
+<p>尾插法插入N个元素</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; RPUSH list val1 val2 val3<br>(integer) 6  </p>
+</blockquote>
+<p><code>List</code>中的所有元素</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LRANGE list 0 -1<br>1) “val3”<br>2) “val2”<br>3) “val1”<br>4) “val1”<br>5) “val2”<br>6) “val3”  </p>
+</blockquote>
+<hr>
+<h3 id="LR-PUSHX-命令"><a href="#LR-PUSHX-命令" class="headerlink" title="[LR]PUSHX 命令"></a>[LR]PUSHX 命令</h3><p><code>语法</code>: [LR]PUSHX key value<br><code>作用</code>: 以头插或尾插方式插入指定<code>key</code>队列中一个或多个元素<br><code>返回</code>: 当指定的队列不存在时，返回<code>0</code>,否则插入成功返回插入后队列中的元素个数</p>
+<p>向一个不存在的队列中以头插法插入一个节点</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LPUSHX list value<br>(integer) 0</p>
+</blockquote>
+<p>向一个存在的队列中以头插法插入一个节点</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LRANGE list 0 -1<br>1) “value”<br>127.0.0.1:6379&gt; LPUSHX list value<br>(integer) 2</p>
+</blockquote>
+<p>尾插法命令使用方式与头插法类似，此处不做过多介绍</p>
+<hr>
+<h3 id="LINSERT-命令"><a href="#LINSERT-命令" class="headerlink" title="LINSERT 命令"></a>LINSERT 命令</h3><p><code>语法</code>: LINSERT key where refVal value<br><code>作用</code>: 在已存在的队列<code>key</code>中指定的节点<code>refval</code>位置的前或后插入节点<code>value</code>。<code>where</code>为<code>after</code>时在指定节点后插入，<code>before</code>为在指定节点前插入<br><code>返回</code>: 队列不存在则返回0;如果指定节点<code>refVal</code>不存在，则不做任何操作并返回<code>-1</code>，否则按照指定位置插入新元素，并返回插入后节点个数</p>
+<p>向一个不存在的队列中插入元素</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LINSERT list after value value1<br>(integer) 0</p>
+</blockquote>
+<p>向一个已经存在的队列中,指定一个不存在节点位置插入</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LRANGE list 0 -1<br>1) “value”<br>2) “value”<br>127.0.0.1:6379&gt; LINSERT list after value1 value11<br>(integer) -1</p>
+</blockquote>
+<p>向一个已经存在的队列中，指定一个存在的节点位置后插入新元素</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LINSERT list after value value11<br>(integer) 3<br>127.0.0.1:6379&gt; LRANGE list 0 -1<br>1) “value”<br>2) “value11”<br>3) “value”  </p>
+</blockquote>
+<p>向一个已经存在的队列中，指定一个存在的节点位置前插入新元素</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LINSERT list before value value11<br>(integer) 4<br>127.0.0.1:6379&gt; LRANGE list 0 -1<br>1) “value11”<br>2) “value”<br>3) “value11”<br>4) “value”  </p>
+</blockquote>
+<p><code>注意</code>:当指定的节点在队列中存在多个时,队列按照从头到尾的优先级方式进行匹配</p>
+<hr>
+<h3 id="LLEN-命令"><a href="#LLEN-命令" class="headerlink" title="LLEN 命令"></a>LLEN 命令</h3><p><code>语法</code>: LLEN key<br><code>作用</code>: 返回队列中元素的个数<br><code>返回</code>: 队列不存在返回<code>0</code>,存在则返回队列中元素个数  </p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LLEN listlist<br>(integer) 0<br>127.0.0.1:6379&gt; LLEN list<br>(integer) 4</p>
+</blockquote>
+<hr>
+<h3 id="LINDEX-命令"><a href="#LINDEX-命令" class="headerlink" title="LINDEX 命令"></a>LINDEX 命令</h3><p><code>语法</code>: LINDEX key index<br><code>作用</code>: 返回指定队列指定下标<code>index</code>处的元素<br><code>返回</code>: 队列不存在，返回<code>NULL</code>, <code>index</code>大于队列元素个数，也返回<code>NULL</code>,否则返回对应的节点元素。<code>index</code>如果小于0,则下标逆向遍历</p>
+<p>队列不存在的情况  </p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LINDEX list111 1<br>(nil)</p>
+</blockquote>
+<p>指定下标的元素不存在  </p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LINDEX list 100<br>(nil)</p>
+</blockquote>
+<p>获取指定下标的元素</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LINDEX list 1<br>“value”</p>
+</blockquote>
+<hr>
+<h3 id="LSET-命令"><a href="#LSET-命令" class="headerlink" title="LSET 命令"></a>LSET 命令</h3><p><code>语法</code>: LSET key index value<br><code>作用</code>: 设置队列指定下标出的元素为新值<code>value</code><br><code>返回</code>: 队列不存在或下标越界均返回<code>错误</code>,否则设置成功返货<code>OK</code></p>
+<p>队列不存在</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LSET listlist 2 value<br>(error) ERR no such key</p>
+</blockquote>
+<p>下标越界</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LSET list 100 value<br>(error) ERR index out of range</p>
+</blockquote>
+<p>成功设置</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LRANGE list 0 -1<br>1) “value11”<br>2) “value”<br>3) “value11”<br>4) “value”<br>127.0.0.1:6379&gt; LSET list 0 value123<br>OK<br>127.0.0.1:6379&gt; LRANGE list 0 -1<br>1) “value123”<br>2) “value”<br>3) “value11”<br>4) “value”  </p>
+</blockquote>
+<hr>
+<h3 id="LR-POP-命令"><a href="#LR-POP-命令" class="headerlink" title="[LR]POP 命令"></a>[LR]POP 命令</h3><p><code>语法</code>: [LR]POP key<br><code>作用</code>: 从队列的头或未弹出节点元素(返回该元素并从队列中删除)<br><code>返回</code>: 成功则返回元素,失败则返回<code>NULL</code></p>
+<p>失败</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LPOP listlist<br>(nil)<br>127.0.0.1:6379&gt; LPOP list<br>“value123”<br>127.0.0.1:6379&gt; RPOP list<br>“value”</p>
+</blockquote>
+<hr>
+<h3 id="LRANGE-命令"><a href="#LRANGE-命令" class="headerlink" title="LRANGE 命令"></a>LRANGE 命令</h3><p><code>语法</code>: LRANGE key start end<br><code>作用</code>: 返回队列指定区间的元素, <code>start</code>、<code>end</code>可以为负数,逆向遍历<br><code>返回</code>: 成功则返回元素,失败则返回<code>NULL</code></p>
+<p>队列不存在</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LRANGE listlist 0 -1  s<br>(empty list or set)</p>
+</blockquote>
+<p>区间指定错误</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LRANGE list 0 -1<br>1) “val6”<br>2) “val5”<br>3) “val4”<br>4) “val3”<br>5) “val2”<br>6) “val1”<br>127.0.0.1:6379&gt; LRANGE list 100 200<br>(empty list or set)</p>
+</blockquote>
+<p>获取指定区间的值</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LRANGE list 2 4<br>1) “val4”<br>2) “val3”<br>3) “val2”<br>127.0.0.1:6379&gt; LRANGE list -4 -2<br>1) “val4”<br>2) “val3”<br>3) “val2”  </p>
+</blockquote>
+<p>获取整个队列的值</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LRANGE list 0 -1<br>1) “val6”<br>2) “val5”<br>3) “val4”<br>4) “val3”<br>5) “val2”<br>6) “val1”  </p>
+</blockquote>
+<hr>
+<h3 id="LTRIM-命令"><a href="#LTRIM-命令" class="headerlink" title="LTRIM 命令"></a>LTRIM 命令</h3><p><code>语法</code>: LTRIM key start end<br><code>作用</code>: 截取队列指定区间的元素,其余元素都删除<br><code>返回</code>: 成功则返回<code>OK</code></p>
+<p>测试链表元素值</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LRANGE list 0 -1<br>1) “val6”<br>2) “val5”<br>3) “val4”<br>4) “val3”<br>5) “val2”<br>6) “val1”</p>
+</blockquote>
+<p>截取指定区间的值</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LTRIM list 2 4<br>OK<br>127.0.0.1:6379&gt; LRANGE list 0 -1<br>1) “val4”<br>2) “val3”<br>3) “val2”  </p>
+</blockquote>
+<p>区间值错误</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LTRIM list -1 0<br>OK<br>127.0.0.1:6379&gt; LRANGE list 0 -1<br>(empty list or set)</p>
+</blockquote>
+<p>区间值错误，导致整个链表为空</p>
+<hr>
+<h3 id="LREM-命令"><a href="#LREM-命令" class="headerlink" title="LREM 命令"></a>LREM 命令</h3><p><code>语法</code>: LTRIM key toremove value<br><code>作用</code>: 删除队列中指定值的节点，删除方式由<code>toremove</code>决定, <code>toremove</code>大于<code>0</code>则从头遍历删除,最多删除<code>toremove</code>个节点;<br><code>toremove</code>小于<code>0</code>则从尾遍历删除,最多删除<code>toremove</code>个节点;<br>为<code>0</code>则删除所有值相同的节点<br><code>返回</code>: 返回删除的节点个数</p>
+<p>从头删除指定值为<code>val</code>的节点</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LRANGE list 0 -1<br> 1) “val”<br> 2) “val1”<br> 3) “val”<br> 4) “val2”<br> 5) “val”<br> 6) “val3”<br> 7) “val”<br> 8) “val4”<br> 9) “val”<br>10) “val5”<br>127.0.0.1:6379&gt; LREM list 3 val<br>(integer) 3<br>127.0.0.1:6379&gt; LRANGE list 0 -1<br>1) “val1”<br>2) “val2”<br>3) “val3”<br>4) “val”<br>5) “val4”<br>6) “val”<br>7) “val5”  </p>
+</blockquote>
+<p>队列中值为val的节点数大于需要删除的数，值删除指定数量的节点，如果队列中节点数量不足呢？</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LREM list 3 val<br>(integer) 2<br>127.0.0.1:6379&gt; LRANGE list 0 -1<br>1) “val1”<br>2) “val2”<br>3) “val3”<br>4) “val4”<br>5) “val5”  </p>
+</blockquote>
+<p><code>toremove</code>小于0的情况与大于0的情况类似，不做介绍，下面简单介绍下为0的情况</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LRANGE list 0 -1<br> 1) “val”<br> 2) “val1”<br> 3) “val”<br> 4) “val2”<br> 5) “val”<br> 6) “val3”<br> 7) “val”<br> 8) “val4”<br> 9) “val”<br>10) “val5”<br>127.0.0.1:6379&gt; LREM list 0 val<br>(integer) 5<br>127.0.0.1:6379&gt; LRANGE list 0 -1<br>1) “val1”<br>2) “val2”<br>3) “val3”<br>4) “val4”<br>5) “val5”   </p>
+</blockquote>
+<hr>
+<h3 id="RPOPLPUSH-命令"><a href="#RPOPLPUSH-命令" class="headerlink" title="RPOPLPUSH 命令"></a>RPOPLPUSH 命令</h3><p><code>语法</code>: RPOPLPUSH srcKey dstKey<br><code>作用</code>: 将源队列<code>src</code>的尾部元素插入<code>dst</code>队列的头部<br><code>返回</code>: 成功返回插入的元素</p>
+<p>源队列</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LRANGE src 0 -1<br>1) “val1”<br>2) “val2”<br>3) “val3”  </p>
+</blockquote>
+<p>目标队列(可以不存在的,如果不存在则会创建一个新的)</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; LRANGE dst 0 -1<br>(empty list or set)</p>
+</blockquote>
+<p>执行命令</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; RPOPLPUSH src dst<br>“val3”<br>127.0.0.1:6379&gt; LRANGE src 0 -1<br>1) “val1”<br>2) “val2”<br>127.0.0.1:6379&gt; LRANGE dst 0 -1<br>1) “val3”  </p>
+</blockquote>
+<hr>
+<h3 id="B-LR-POP-命令"><a href="#B-LR-POP-命令" class="headerlink" title="B[LR]POP 命令"></a>B[LR]POP 命令</h3><p><code>语法</code>: B[LR]POP key1 [key2 …] timeout<br><code>作用</code>: 从一个或多个队列的头或尾部弹出一个元素,如果指定的队列集合中有一个队列有元素则立即返回数据，否则阻塞等待<code>timeout</code>时间,如果在指定时间内,队列集合中有元素新增,则该操作返回。否则超时时间到，自动返回<br><code>返回</code>: 成功返回元素以及元素所属队列,失败返回错误</p>
+<p>队列集合中有元素</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; BLPOP src dst 30<br>1) “src”<br>2) “val1”  </p>
+</blockquote>
+<p>队列集合中没有元素且超时</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; BLPOP src dst 30<br>(nil)<br>(30.04s)</p>
+</blockquote>
+<p>队列集合中没有元素,阻塞过程中队列集合中新增了元素</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; BLPOP src dst 300<br>1) “src”<br>2) “kkk”<br>(6.67s)<br>新增元素操作<br>127.0.0.1:6379&gt; rpush src kkk<br>(integer) 1  </p>
+</blockquote>
+<p>阻塞的队列尾部操作类似，不做介绍</p>
+<hr>
+<h3 id="BRPOPLPUSH-命令"><a href="#BRPOPLPUSH-命令" class="headerlink" title="BRPOPLPUSH 命令"></a>BRPOPLPUSH 命令</h3><p><code>语法</code>: BRPOPLPUSH src dst timeout<br><code>作用</code>: 将指定队列<code>src</code>尾部的元素插入到<code>dst</code>头部，如果队列<code>src</code>为空，则操作阻塞<code>timeout</code>时间，在阻塞时间内,如果队列<code>src</code>有新增元素，则将<code>src</code>队列尾部元素插入到<code>dst</code>头部并返回，否则超时返回<br><code>返回</code>: 返回操作的元素</p>
+<p>源队列不为空</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; BRPOPLPUSH src dst 300<br>“kkkk”</p>
+</blockquote>
+<p>源队列为空</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; BRPOPLPUSH src dst 300<br>“jjj”<br>(11.68s)  </p>
+</blockquote>
+<p>新增操作</p>
+<blockquote>
+<p>127.0.0.1:6379&gt; rpush src jjj<br>(integer) 1  </p>
+</blockquote>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>List</code>是用得比较多的数据结构之一,使用list可以轻易的构造队列，比如存储消息队列之类的，以完成<code>FIFO</code>或<code>FILO</code>的功能。</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/redis/" rel="tag">#redis</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/21/redis-string/" rel="next" title="Redis 数据结构之 String">
+                <i class="fa fa-chevron-left"></i> Redis 数据结构之 String
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/28/redis-list/"
+           data-title="Redis 数据结构之 list" data-url="http://yoursite.com/2016/05/28/redis-list/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/images/Ball.jpg"
+               alt="Kevin" />
+          <p class="site-author-name" itemprop="name">Kevin</p>
+          <p class="site-description motion-element" itemprop="description">男子千年志，吾生未有涯</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/XiaoxiaoxiaoCoder" target="_blank" title="github">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/2145322534" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/187a415da474/latest_articles" target="_blank" title="jianshu">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  jianshu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">2.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令简介"><span class="nav-number">3.</span> <span class="nav-text">命令简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LR-PUSH-命令"><span class="nav-number">3.1.</span> <span class="nav-text">[LR]PUSH 命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LR-PUSHX-命令"><span class="nav-number">3.2.</span> <span class="nav-text">[LR]PUSHX 命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LINSERT-命令"><span class="nav-number">3.3.</span> <span class="nav-text">LINSERT 命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LLEN-命令"><span class="nav-number">3.4.</span> <span class="nav-text">LLEN 命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LINDEX-命令"><span class="nav-number">3.5.</span> <span class="nav-text">LINDEX 命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LSET-命令"><span class="nav-number">3.6.</span> <span class="nav-text">LSET 命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LR-POP-命令"><span class="nav-number">3.7.</span> <span class="nav-text">[LR]POP 命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LRANGE-命令"><span class="nav-number">3.8.</span> <span class="nav-text">LRANGE 命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LTRIM-命令"><span class="nav-number">3.9.</span> <span class="nav-text">LTRIM 命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LREM-命令"><span class="nav-number">3.10.</span> <span class="nav-text">LREM 命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RPOPLPUSH-命令"><span class="nav-number">3.11.</span> <span class="nav-text">RPOPLPUSH 命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B-LR-POP-命令"><span class="nav-number">3.12.</span> <span class="nav-text">B[LR]POP 命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BRPOPLPUSH-命令"><span class="nav-number">3.13.</span> <span class="nav-text">BRPOPLPUSH 命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kevin</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"xiaoxiaoxiaocoder"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
