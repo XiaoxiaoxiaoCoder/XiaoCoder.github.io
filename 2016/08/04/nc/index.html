@@ -15,16 +15,19 @@
 
 
 
-<meta name="description" content="男子千年志，吾生未有涯">
-<meta property="og:type" content="website">
-<meta property="og:title" content="自我介绍">
-<meta property="og:url" content="http://cppdemo.com/about/index.html">
+<meta name="description" content="man 手册介绍
+The nc (or netcat) utility is used for just about anything under the sun involving TCP or UDP.  It can open TCP connections, sendUDP packets, listen on arbitrary TCP and UDP ports, do port s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nc 命令常用用法">
+<meta property="og:url" content="http://cppdemo.com/2016/08/04/nc/index.html">
 <meta property="og:site_name" content="小小小码农">
-<meta property="og:description" content="男子千年志，吾生未有涯">
-<meta property="og:updated_time" content="2016-08-02T11:44:47.000Z">
+<meta property="og:description" content="man 手册介绍
+The nc (or netcat) utility is used for just about anything under the sun involving TCP or UDP.  It can open TCP connections, sendUDP packets, listen on arbitrary TCP and UDP ports, do port s">
+<meta property="og:updated_time" content="2016-08-04T13:28:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="自我介绍">
-<meta name="twitter:description" content="男子千年志，吾生未有涯">
+<meta name="twitter:title" content="nc 命令常用用法">
+<meta name="twitter:description" content="man 手册介绍
+The nc (or netcat) utility is used for just about anything under the sun involving TCP or UDP.  It can open TCP connections, sendUDP packets, listen on arbitrary TCP and UDP ports, do port s">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -54,7 +57,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>自我介绍 | 小小小码农</title>
+<title>nc 命令常用用法 | 小小小码农</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -64,7 +67,7 @@
         fancybox: true,
         animate: false,
         isHome: false,
-        isPost: false,
+        isPost: true,
         isArchive: false,
         isTag: false,
         isCategory: false,
@@ -260,11 +263,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="page-undefined" class="article article-type-page" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-nc" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/about/index.html" class="article-date">
-      <time datetime="2016-05-01T05:58:24.000Z" itemprop="datePublished">2016-05-01</time>
+      <a href="/2016/08/04/nc/" class="article-date">
+      <time datetime="2016-08-04T12:24:11.000Z" itemprop="datePublished">2016-08-04</time>
 </a>
 
 
@@ -279,7 +282,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      自我介绍
+      nc 命令常用用法
     </h1>
   
 
@@ -287,8 +290,16 @@
       
       <div class="article-info article-info-post">
         
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+    </div>
+
 
         
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux-命令/">Linux 命令</a></li></ul>
+    </div>
+
         <div class="clearfix"></div>
       </div>
       
@@ -296,26 +307,43 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <style>
-    .article-meta { display: none; }
-    #container .article .article-title { padding-right: 0; }
-    .article-header {
-        padding: 0;
-        padding-top: 26px;
-        border-left: none;
-        text-align: center;
-    }
-    .article-header:hover { border-left: none; }
-    .article-title { font-size: 1.6em }
-    .article-entry hr { margin: 0;}
-    .article-meta,
-    #container .article-info-post.article-info { display: none;}
-    #container .article .article-title { padding: 0; }
-</style>
+        <hr>
+<h2 id="man-手册介绍"><a href="#man-手册介绍" class="headerlink" title="man 手册介绍"></a>man 手册介绍</h2><blockquote>
+<p>The nc (or netcat) utility is used for just about anything under the sun involving TCP or UDP.  It can open TCP connections, sendUDP packets, listen on arbitrary TCP and UDP ports, do port scanning, and deal with both IPv4 and IPv6.  Unlike telnet(1), nc scripts nicely, and separates error messages onto standard error instead of sending them to standard output, as telnet(1) does with some.</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="nc-功能简介"><a href="#nc-功能简介" class="headerlink" title="nc 功能简介"></a>nc 功能简介</h2><p>nc是网络界的“瑞士军刀”,  提供以下功能：  </p>
+<ul>
+<li>监听特定的端口,这时候<code>nc</code>可以作为一个服务器,不过仅仅是一个echo服务器  </li>
+<li>链接特定的端口,这时候<code>nc</code>就成为一个客户端,也是一个简单的客户端,只能起echo作用  </li>
+<li>扫描端口,这可以查询某个机器上是否开启了某个端口  </li>
+</ul>
+<h2 id="语法格式"><a href="#语法格式" class="headerlink" title="语法格式"></a>语法格式</h2><p><code>nc</code>语法格式过长，具体的可以查阅man手册，本文只介绍常用的几个选项</p>
+<ul>
+<li>-l Listen mode, for inbound connects  监听模式，接收链接</li>
+<li>-p port    Specify local port for remote connects 指定一个本地端口去链接远端服务器</li>
+<li>-w secs    Timeout for connects and final net reads 接收一个连接到第一个消息到来的超时时间</li>
+</ul>
+<h2 id="例子说明"><a href="#例子说明" class="headerlink" title="例子说明"></a>例子说明</h2><h3 id="监听端口"><a href="#监听端口" class="headerlink" title="监听端口"></a>监听端口</h3><p>语法格式：nc -l [addr] port<br>说明：如果不指定<code>addr</code>,则绑定地址0.0.0.0，即该机器所绑定的所有网卡ip都能链接上指定的<code>port</code></p>
+<p>不指定IP  </p>
+<blockquote>
+<p>[root@localhost103 ~]$ nc -l 1234<br>[root@localhost103 ~]$netstat -tunlp | grep  1234<br>tcp        0      0 0.0.0.0:1234                0.0.0.0:*                   LISTEN      22304/nc</p>
+</blockquote>
+<p>指定IP</p>
+<blockquote>
+<p>[root@localhost103 ~]$ nc -l 127.0.0.1 1234<br>[root@localhost103 ~]$netstat -tunlp | grep  1234<br>tcp        0      0 127.0.0.1:1234              0.0.0.0:*                   LISTEN      23805/nc</p>
+</blockquote>
+<h3 id="链接指定IP-PORT"><a href="#链接指定IP-PORT" class="headerlink" title="链接指定IP PORT"></a>链接指定IP PORT</h3><p>语法格式：nc IP PORT [-p port]<br>说明：<code>IP</code> <code>PORT</code> 为目的机器的地址，可选项 -p port 为以本机指定的端口<code>port</code>链接目的地址</p>
+<p>目标机器地址为：127.0.0.1 1234  </p>
+<blockquote>
+<p>nc 127.0.0.1 1234 #直接则链接上目标机器</p>
+</blockquote>
+<h3 id="扫描端口"><a href="#扫描端口" class="headerlink" title="扫描端口"></a>扫描端口</h3><p>语法格式：nc -v -z port1-prot2<br>说明：<code>-v</code>是打印出详细信息 <code>-z</code>是指定端口区间</p>
+<blockquote>
+<p>[root@localhost103 ~]$ nc  -v 192.168.201.75 -z 7000-7010<br>nc: connect to 192.168.201.75 port 7000 (tcp) failed: Connection refused<br>Connection to 192.168.201.75 7001 port [tcp/afs3-callback] succeeded!<br>Connection to 192.168.201.75 7002 port [tcp/afs3-prserver] succeeded!<br>nc: connect to 192.168.201.75 port 7003 (tcp) failed: Connection refused<br>Connection to 192.168.201.75 7004 port [tcp/afs3-kaserver] succeeded!<br>Connection to 192.168.201.75 7005 port [tcp/afs3-volser] succeeded!<br>Connection to 192.168.201.75 7006 port [tcp/afs3-errors] succeeded!<br>Connection to 192.168.201.75 7007 port [tcp/afs3-bos] succeeded!<br>Connection to 192.168.201.75 7008 port [tcp/afs3-update] succeeded!<br>Connection to 192.168.201.75 7009 port [tcp/afs3-rmtsys] succeeded!<br>Connection to 192.168.201.75 7010 port [tcp/ups-onlinet] succeeded!  </p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>nc</code>功能实则很强大,还可以做简单的代理服务器、传送文件等等功能,号称网络中的瑞士军刀,也不是浪得虚名,工具虽然强大,但还在乎于使用的人。关于该命令,还将持续学习中,以此做记录。</p>
 
-
-          
-        
       
     </div>
     
@@ -349,10 +377,59 @@
 
   
     
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/08/04/nc/">nc 命令常用用法</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">小小小码农</a></p>
+        <p><span>发布时间:</span>2016-08-04, 20:24:11</p>
+        <p><span>最后更新:</span>2016-08-04, 21:28:51</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/08/04/nc/" title="nc 命令常用用法">http://cppdemo.com/2016/08/04/nc/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://cppdemo.com/2016/08/04/nc/　　作者: 小小小码农" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
 
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/06/09/duanwu/">
+                    写在端午
+                </a>
+            </div>
+        
+    </nav>
 
   
 </article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#man-手册介绍"><span class="toc-number">1.</span> <span class="toc-text">man 手册介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nc-功能简介"><span class="toc-number">2.</span> <span class="toc-text">nc 功能简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#语法格式"><span class="toc-number">3.</span> <span class="toc-text">语法格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例子说明"><span class="toc-number">4.</span> <span class="toc-text">例子说明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#监听端口"><span class="toc-number">4.1.</span> <span class="toc-text">监听端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#链接指定IP-PORT"><span class="toc-number">4.2.</span> <span class="toc-text">链接指定IP PORT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扫描端口"><span class="toc-number">4.3.</span> <span class="toc-text">扫描端口</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
 
 
 
@@ -361,7 +438,7 @@
     
       <div class="duoshuo" id="comments">
     <div id="comment-box" ></div>
-    <div class="ds-thread" id="ds-thread" data-thread-key="about/index.html" data-title="自我介绍" data-url="http://cppdemo.com/about/index.html"></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/08/04/nc/" data-title="nc 命令常用用法" data-url="http://cppdemo.com/2016/08/04/nc/"></div>
     <script>
         var duoshuoQuery = {short_name:"xiaoxiaoxiaocoder"};
         var loadComment = function(){
@@ -379,6 +456,24 @@
 </div>
     
 
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/06/09/duanwu/" title="下一篇: 写在端午">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/08/04/nc/">nc 命令常用用法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/09/duanwu/">写在端午</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/04/redis-hash/">Redis 数据结构之 hash</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/28/redis-list/">Redis 数据结构之 list</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/21/redis-string/">Redis 数据结构之 String</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/06/C_Define/">C/C++ 宏定义使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/hello-world/">Hello World</a></li></ul>
 
 
 
