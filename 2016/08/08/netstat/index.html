@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="小小小码农" />
+
+
+
+<meta name="description" content="简介Netstat 是一款命令行工具，可用于列出系统上所有的网络套接字连接情况，包括 tcp, udp 以及 unix 套接字，另外它还能列出处于监听状态（即等待接入请求）的套接字。如果你想确认系统上的 Web 服务有没有起来，你可以查看80端口有没有打开。以上功能使 netstat 成为网管和系统管理员的必备利器。
+以下简介来至netstat的man手册：  
+
+netstat - 打印网络连接">
+<meta property="og:type" content="article">
+<meta property="og:title" content="netstat 命令常用用法">
+<meta property="og:url" content="http://cppdemo.com/2016/08/08/netstat/index.html">
+<meta property="og:site_name" content="小小小码农">
+<meta property="og:description" content="简介Netstat 是一款命令行工具，可用于列出系统上所有的网络套接字连接情况，包括 tcp, udp 以及 unix 套接字，另外它还能列出处于监听状态（即等待接入请求）的套接字。如果你想确认系统上的 Web 服务有没有起来，你可以查看80端口有没有打开。以上功能使 netstat 成为网管和系统管理员的必备利器。
+以下简介来至netstat的man手册：  
+
+netstat - 打印网络连接">
+<meta property="og:updated_time" content="2016-08-08T12:43:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="netstat 命令常用用法">
+<meta name="twitter:description" content="简介Netstat 是一款命令行工具，可用于列出系统上所有的网络套接字连接情况，包括 tcp, udp 以及 unix 套接字，另外它还能列出处于监听状态（即等待接入请求）的套接字。如果你想确认系统上的 Web 服务有没有起来，你可以查看80端口有没有打开。以上功能使 netstat 成为网管和系统管理员的必备利器。
+以下简介来至netstat的man手册：  
+
+netstat - 打印网络连接">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="小小小码农" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/uploads/images/Ball.jpg">
+
+
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>netstat 命令常用用法 | 小小小码农</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: false,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/uploads/images/Ball.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">小小小码农</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa 新浪微博" href="http://weibo.com/u/2145322534" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/XiaoxiaoxiaoCoder" title="GitHub"></a>
+                            
+                                <a class="fa 简书" href="http://www.jianshu.com/users/187a415da474/latest_articles" title="简书"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-C/">C/C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux-命令/">Linux 命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂七杂八/">杂七杂八</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://macshuo.com/">MacTalk</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://blog.chiyl.info/">池玉龙</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://huangdc.com/">黄东聪</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">男子千年志，吾生未有涯</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">小小小码农</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/uploads/images/Ball.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">小小小码农</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa 新浪微博" target="_blank" href="http://weibo.com/u/2145322534" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/XiaoxiaoxiaoCoder" title="GitHub"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="http://www.jianshu.com/users/187a415da474/latest_articles" title="简书"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-netstat" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/08/netstat/" class="article-date">
+      <time datetime="2016-08-08T11:46:36.000Z" itemprop="datePublished">2016-08-08</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      netstat 命令常用用法
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux-命令/">Linux 命令</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Netstat 是一款命令行工具，可用于列出系统上所有的网络套接字连接情况，包括 tcp, udp 以及 unix 套接字，另外它还能列出处于监听状态（即等待接入请求）的套接字。如果你想确认系统上的 Web 服务有没有起来，你可以查看80端口有没有打开。以上功能使 netstat 成为网管和系统管理员的必备利器。</p>
+<p>以下简介来至<code>netstat</code>的man手册：  </p>
+<blockquote>
+<p>netstat - 打印网络连接、路由表、连接的数据统计、伪装连接以及广播域成员。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="常见参数"><a href="#常见参数" class="headerlink" title="常见参数"></a>常见参数</h2><ul>
+<li>-a (all)显示所有选项，默认不显示LISTEN相关  </li>
+<li>-t (tcp)仅显示tcp相关选项  </li>
+<li>-u (udp)仅显示udp相关选项  </li>
+<li>-n 拒绝显示别名，能显示数字的全部转化成数字  </li>
+<li>-l 仅列出有在 Listen (监听) 的服務状态  </li>
+<li>-p 显示建立相关链接的程序名  </li>
+<li>-r 显示路由信息，路由表  </li>
+<li>-e 显示扩展信息，例如uid等  </li>
+<li>-s 按各个协议进行统计  </li>
+<li>-c 每隔一个固定时间，执行该netstat命令  <blockquote>
+<p>提示：LISTEN和LISTENING的状态只有用-a或者-l才能看到</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="常用实例"><a href="#常用实例" class="headerlink" title="常用实例"></a>常用实例</h2><h3 id="列出所有端口"><a href="#列出所有端口" class="headerlink" title="列出所有端口"></a>列出所有端口</h3><blockquote>
+<p>最简单的命令，使用 <code>-a</code> 选项即可，即 netstat -a</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[Kevin@Local200-75 ~]$ netstat -a | more</span><br><span class="line">Active Internet connections (servers and established)</span><br><span class="line">Proto Recv-Q Send-Q Local Address               Foreign Address             State</span><br><span class="line">tcp        0      0 *:6528                      *:*                         LISTEN</span><br><span class="line">tcp        0      0 *:8960                      *:*                         LISTEN</span><br><span class="line">tcp        0      0 *:fodms                     *:*                         LISTEN</span><br><span class="line">tcp        0      0 *:8512                      *:*                         LISTEN</span><br><span class="line">tcp        0      0 *:afs3-update               *:*                         LISTEN</span><br><span class="line">tcp        0      0 *:6304                      *:*                         LISTEN</span><br><span class="line">tcp        0      0 *:dlip                      *:*                         LISTEN</span><br><span class="line">tcp        0      0 *:8513                      *:*                         LISTEN</span><br><span class="line">tcp        0      0 *:afs3-rmtsys               *:*                         LISTEN</span><br><span class="line">tcp        0      0 *:9601                      *:*                         LISTEN</span><br></pre></td></tr></table></figure>
+<h3 id="只列出-TCP-或-UDP-协议的链接"><a href="#只列出-TCP-或-UDP-协议的链接" class="headerlink" title="只列出 TCP 或 UDP 协议的链接"></a>只列出 TCP 或 UDP 协议的链接</h3><blockquote>
+<p>使用 <code>-t</code> 选项列出 TCP 协议链接</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[Kevin@Local200-75 ~]$ netstat -at | more</span><br><span class="line">Active Internet connections (servers and established)</span><br><span class="line">Proto Recv-Q Send-Q Local Address               Foreign Address             State</span><br><span class="line">tcp        0      0 *:6528                      *:*                         LISTEN</span><br><span class="line">tcp        0      0 *:8960                      *:*                         LISTEN</span><br><span class="line">tcp        0      0 *:fodms                     *:*                         LISTEN</span><br><span class="line">tcp        0      0 *:8512                      *:*                         LISTEN</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用 <code>-u</code> 选项列出 TCP 协议链接  </p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[Kevin@Local200-75 ~]$ netstat -au | more</span><br><span class="line">Active Internet connections (servers and established)</span><br><span class="line">Proto Recv-Q Send-Q Local Address               Foreign Address             State</span><br><span class="line">udp        0      0 *:syslog                    *:*</span><br><span class="line">udp        0      0 *:37013                     *:*</span><br><span class="line">udp        0      0 *:55200                     *:*</span><br><span class="line">udp        0      0 *:snmp                      *:*</span><br></pre></td></tr></table></figure>
+<h3 id="禁用别名显示，显示IP"><a href="#禁用别名显示，显示IP" class="headerlink" title="禁用别名显示，显示IP"></a>禁用别名显示，显示IP</h3><blockquote>
+<p>使用 <code>-n</code> 禁止展示别名  </p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[Kevin@Local200-75 ~]$ netstat -ant | more</span><br><span class="line">Active Internet connections (servers and established)</span><br><span class="line">Proto Recv-Q Send-Q Local Address               Foreign Address             State</span><br><span class="line">tcp        0      0 0.0.0.0:6528                0.0.0.0:*                   LISTEN</span><br><span class="line">tcp        0      0 0.0.0.0:8960                0.0.0.0:*                   LISTEN</span><br><span class="line">tcp        0      0 0.0.0.0:7200                0.0.0.0:*                   LISTEN</span><br><span class="line">tcp        0      0 0.0.0.0:8512                0.0.0.0:*                   LISTEN</span><br><span class="line">tcp        0      0 0.0.0.0:7008                0.0.0.0:*                   LISTEN</span><br></pre></td></tr></table></figure>
+<h3 id="显示监听中的端口"><a href="#显示监听中的端口" class="headerlink" title="显示监听中的端口"></a>显示监听中的端口</h3><blockquote>
+<p>使用 <code>-l</code> 展示监听的端口  </p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[Kevin@Local200-75 ~]$ netstat -tnl | more</span><br><span class="line">Active Internet connections (only servers)</span><br><span class="line">Proto Recv-Q Send-Q Local Address               Foreign Address             State</span><br><span class="line">tcp        0      0 0.0.0.0:6528                0.0.0.0:*                   LISTEN</span><br><span class="line">tcp        0      0 0.0.0.0:8960                0.0.0.0:*                   LISTEN</span><br><span class="line">tcp        0      0 0.0.0.0:7200                0.0.0.0:*                   LISTEN</span><br><span class="line">tcp        0      0 0.0.0.0:8512                0.0.0.0:*                   LISTEN</span><br><span class="line">tcp        0      0 0.0.0.0:7008                0.0.0.0:*                   LISTEN</span><br><span class="line">tcp        0      0 0.0.0.0:6304                0.0.0.0:*                   LISTEN</span><br></pre></td></tr></table></figure>
+<h3 id="获取进程名、进程号以及用户ID"><a href="#获取进程名、进程号以及用户ID" class="headerlink" title="获取进程名、进程号以及用户ID"></a>获取进程名、进程号以及用户ID</h3><blockquote>
+<p>使用 <code>-p</code> 查看进程信息，前提有进程的相关权限</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[Kevin@localhost103 ~]$ sudo netstat -nlpt</span><br><span class="line">Active Internet connections (only servers)</span><br><span class="line">Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name</span><br><span class="line">tcp        0      0 0.0.0.0:10050               0.0.0.0:*                   LISTEN      8076/zabbix_agentd</span><br><span class="line">tcp        0      0 0.0.0.0:5666                0.0.0.0:*                   LISTEN      2790/xinetd</span><br><span class="line">tcp        0      0 127.0.0.1:199               0.0.0.0:*                   LISTEN      2723/snmpd</span><br><span class="line">tcp        0      0 :::3600                     :::*                        LISTEN      22664/sshd</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>-ep</code> 可以同时查看进程名和用户名</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[Kevin@localhost103 ~]$ sudo netstat -lept</span><br><span class="line">Active Internet connections (only servers)</span><br><span class="line">Proto Recv-Q Send-Q Local Address               Foreign Address             State       User       Inode      PID/Program name</span><br><span class="line">tcp        0      0 *:10050                     *:*                         LISTEN      zabbix     457722759  8076/zabbix_agentd</span><br><span class="line">tcp        0      0 *:nrpe                      *:*                         LISTEN      root       7302       2790/xinetd</span><br><span class="line">tcp        0      0 localhost.localdomain:smux  *:*                         LISTEN      root       7218       2723/snmpd</span><br><span class="line">tcp        0      0 *:trap-daemon               *:*                         LISTEN      root       219592389  22664/sshd</span><br></pre></td></tr></table></figure>
+<p>注意 - 假如你将 -n 和 -e 选项一起使用，User 列的属性就是用户的 ID 号，而不是用户名。</p>
+<h3 id="打印统计数据"><a href="#打印统计数据" class="headerlink" title="打印统计数据"></a>打印统计数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[Kevin@localhost103 ~]$ netstat -s</span><br><span class="line">Ip:</span><br><span class="line">    273610077 total packets received</span><br><span class="line">    0 forwarded</span><br><span class="line">    0 incoming packets discarded</span><br><span class="line">    273610074 incoming packets delivered</span><br><span class="line">    241627567 requests sent out</span><br><span class="line">Icmp:</span><br><span class="line">    3716128 ICMP messages received</span><br><span class="line">    10 input ICMP message failed.</span><br><span class="line">    ICMP input histogram:</span><br><span class="line">        destination unreachable: 134059</span><br><span class="line">        timeout in transit: 2009</span><br><span class="line">        redirects: 113420</span><br><span class="line">        echo requests: 3466591</span><br><span class="line">        echo replies: 49</span><br><span class="line">    3521755 ICMP messages sent</span><br><span class="line">    0 ICMP messages failed</span><br><span class="line">    ICMP output histogram:</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<p>如果想只打印出 TCP 或 UDP 协议的统计数据，只要加上对应的选项（-t 和 -u）即可，so easy。</p>
+<h3 id="打印网络接口信息"><a href="#打印网络接口信息" class="headerlink" title="打印网络接口信息"></a>打印网络接口信息</h3><blockquote>
+<p><code>-i</code> 选项打印网络接口信息</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[Kevin@localhost103 ~]$ netstat -i</span><br><span class="line">Kernel Interface table</span><br><span class="line">Iface       MTU Met    RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg</span><br><span class="line">eth0       1500   0 274863481      0      0      0 273575647      0      0      0 BMRU</span><br><span class="line">lo        16436   0    88519      0      0      0    88519      0      0      0 LRU</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>netstat</code>大部分功能都介绍了,如果你想知道netstat的高级功能,阅读它的手册吧！！</p>
+
+      
+    </div>
+    
+  </div>
+  
+	<! -- 添加捐赠图标 -->
+<div class ="post-donate">
+    <div id="donate_board" class="donate_bar center">
+        <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏"></a>
+        <span class="donate_txt">
+           &uarr;<br>
+		   欣赏此文？求鼓励，求支持！
+        </span>
+        <br>
+      </div>
+	<div id="donate_guide" class="donate_bar center hidden" >
+		<!-- 支付宝打赏图案 -->
+		<img src="/uploads/donate_img/zhifubao.jpg" alt="支付宝打赏">
+		<!-- 微信打赏图案 -->
+		<img src="/uploads/donate_img/weixin.jpg" alt="微信打赏">
+  </div>
+	<script type="text/javascript">
+		document.getElementById('btn_donate').onclick = function(){
+			$('#donate_board').addClass('hidden');
+			$('#donate_guide').removeClass('hidden');
+		}
+	</script>
+</div>
+<! -- 添加捐赠图标 -->
+
+
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/08/08/netstat/">netstat 命令常用用法</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">小小小码农</a></p>
+        <p><span>发布时间:</span>2016-08-08, 19:46:36</p>
+        <p><span>最后更新:</span>2016-08-08, 20:43:44</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/08/08/netstat/" title="netstat 命令常用用法">http://cppdemo.com/2016/08/08/netstat/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://cppdemo.com/2016/08/08/netstat/　　作者: 小小小码农" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/08/04/nc/">
+                    nc 命令常用用法
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见参数"><span class="toc-number">2.</span> <span class="toc-text">常见参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用实例"><span class="toc-number">3.</span> <span class="toc-text">常用实例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#列出所有端口"><span class="toc-number">3.1.</span> <span class="toc-text">列出所有端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#只列出-TCP-或-UDP-协议的链接"><span class="toc-number">3.2.</span> <span class="toc-text">只列出 TCP 或 UDP 协议的链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#禁用别名显示，显示IP"><span class="toc-number">3.3.</span> <span class="toc-text">禁用别名显示，显示IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显示监听中的端口"><span class="toc-number">3.4.</span> <span class="toc-text">显示监听中的端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取进程名、进程号以及用户ID"><span class="toc-number">3.5.</span> <span class="toc-text">获取进程名、进程号以及用户ID</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#打印统计数据"><span class="toc-number">3.6.</span> <span class="toc-text">打印统计数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#打印网络接口信息"><span class="toc-number">3.7.</span> <span class="toc-text">打印网络接口信息</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/08/08/netstat/" data-title="netstat 命令常用用法" data-url="http://cppdemo.com/2016/08/08/netstat/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"xiaoxiaoxiaocoder"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/08/04/nc/" title="下一篇: nc 命令常用用法">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/08/08/netstat/">netstat 命令常用用法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/04/nc/">nc 命令常用用法</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/09/duanwu/">写在端午</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/04/redis-hash/">Redis 数据结构之 hash</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/28/redis-list/">Redis 数据结构之 list</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/21/redis-string/">Redis 数据结构之 String</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/06/C_Define/">C/C++ 宏定义使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/hello-world/">Hello World</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016 小小小码农
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.5">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
