@@ -15,18 +15,16 @@
 
 
 
-<meta name="description" content="宏定义在C语言占有举足轻重的地位。底层框架自不用说，为了编译优化和方便，以及跨平台能力，宏被大量使用，可以说底层开发离开define将寸步难行。使用宏的好处是不言自明，在节省工作量的同时，代码可读性大大增加。">
+<meta name="description" content="最近工作中在Linux下,某些指定的程序需要调用指定的shell脚本完成指定工作,以前也曾经做过类似的功能,调用system函数执行指定的脚本,以前并不关心shell脚本是否执行成功了,现在的功能需要根据shell脚本执行成功与否,于是查询了下system函数的说明,有此文以做笔记之用。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C/C++ 宏定义使用">
-<meta property="og:url" content="http://cppdemo.com/2016/05/06/C_Define/index.html">
+<meta property="og:title" content="Linux system 函数">
+<meta property="og:url" content="http://cppdemo.com/2016/11/26/system/index.html">
 <meta property="og:site_name" content="小小小码农">
-<meta property="og:description" content="宏定义在C语言占有举足轻重的地位。底层框架自不用说，为了编译优化和方便，以及跨平台能力，宏被大量使用，可以说底层开发离开define将寸步难行。使用宏的好处是不言自明，在节省工作量的同时，代码可读性大大增加。">
-<meta property="og:image" content="http://7xtm75.com1.z0.glb.clouddn.com/define.png">
-<meta property="og:updated_time" content="2016-11-26T08:26:04.000Z">
+<meta property="og:description" content="最近工作中在Linux下,某些指定的程序需要调用指定的shell脚本完成指定工作,以前也曾经做过类似的功能,调用system函数执行指定的脚本,以前并不关心shell脚本是否执行成功了,现在的功能需要根据shell脚本执行成功与否,于是查询了下system函数的说明,有此文以做笔记之用。">
+<meta property="og:updated_time" content="2016-11-26T10:37:21.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C/C++ 宏定义使用">
-<meta name="twitter:description" content="宏定义在C语言占有举足轻重的地位。底层框架自不用说，为了编译优化和方便，以及跨平台能力，宏被大量使用，可以说底层开发离开define将寸步难行。使用宏的好处是不言自明，在节省工作量的同时，代码可读性大大增加。">
-<meta name="twitter:image" content="http://7xtm75.com1.z0.glb.clouddn.com/define.png">
+<meta name="twitter:title" content="Linux system 函数">
+<meta name="twitter:description" content="最近工作中在Linux下,某些指定的程序需要调用指定的shell脚本完成指定工作,以前也曾经做过类似的功能,调用system函数执行指定的脚本,以前并不关心shell脚本是否执行成功了,现在的功能需要根据shell脚本执行成功与否,于是查询了下system函数的说明,有此文以做笔记之用。">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -56,7 +54,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>C/C++ 宏定义使用 | 小小小码农</title>
+<title>Linux system 函数 | 小小小码农</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -262,11 +260,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-C_Define" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-system" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/05/06/C_Define/" class="article-date">
-      <time datetime="2016-05-06T07:51:02.000Z" itemprop="datePublished">2016-05-06</time>
+      <a href="/2016/11/26/system/" class="article-date">
+      <time datetime="2016-11-26T09:48:42.000Z" itemprop="datePublished">2016-11-26</time>
 </a>
 
 
@@ -281,7 +279,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      C/C++ 宏定义使用
+      Linux system 函数
     </h1>
   
 
@@ -290,13 +288,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/C-C/">C/C++</a>
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C-C/">C/C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/笔记/">笔记</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C-C/">C/C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux-API/">Linux API</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux-开发/">Linux 开发</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/笔记/">笔记</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -306,42 +304,39 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><img src="http://7xtm75.com1.z0.glb.clouddn.com/define.png" alt="片头图片"></p>
-<p><strong>宏定义</strong>在C语言占有举足轻重的地位。底层框架自不用说，为了编译优化和方便，以及跨平台能力，宏被大量使用，可以说底层开发离开<strong>define</strong>将寸步难行。使用宏的好处是不言自明，在节省工作量的同时，代码可读性大大增加。</p>
-<hr>
+        <p>最近工作中在<code>Linux</code>下,某些指定的程序需要调用指定的<strong>shell</strong>脚本完成指定工作,以前也曾经做过类似的功能,调用<code>system</code>函数执行指定的脚本,以前并不关心<strong>shell</strong>脚本是否执行成功了,现在的功能需要根据<strong>shell</strong>脚本执行成功与否,于是查询了下<code>system</code>函数的说明,有此文以做笔记之用。</p>
 <a id="more"></a>
-<p>通过本文你将了解到：</p>
-<blockquote>
+<h2 id="system-函数说明"><a href="#system-函数说明" class="headerlink" title="system 函数说明"></a>system 函数说明</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">system</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *command)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>功能：调用/bin/sh -c 执行指定的脚本 <code>command</code>  </p>
+<p>常规使用方法：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> ret = system(<span class="string">"./test.sh"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>关于返回值：  </p>
 <ul>
-<li>宏定义入门</li>
-<li>对象宏</li>
-<li>函数宏</li>
-<li>宏定义变长参数</li>
+<li><code>system</code> 返回值,调用函数后的返回值</li>
+<li><code>shell</code> 返回值,指脚本执行后的返回值</li>
 </ul>
+<h2 id="如何判断脚本是否执行成功"><a href="#如何判断脚本是否执行成功" class="headerlink" title="如何判断脚本是否执行成功"></a>如何判断脚本是否执行成功</h2><ul>
+<li>ret == 0</li>
+<li>ret != -1<br>以上两个对于返回值的判定，是经常被使用的，但是正确么。。。</li>
+</ul>
+<p>答案是<code>都错</code></p>
+<h2 id="system-返回值说明"><a href="#system-返回值说明" class="headerlink" title="system 返回值说明"></a>system 返回值说明</h2><p>man手册  </p>
+<blockquote>
+<p>The value returned is -1 on error (e.g.  fork() failed), and the return status of the command  otherwise.   This  latter  return status  is in the format specified in wait(2).  Thus, the exit code of the command will be WEXITSTATUS(status).  In case /bin/sh could not be executed, the exit status will be that of a command that does exit(127).If the value of command is NULL, system() returns non-zero if the shell is available, and zero if not.system() does not affect the wait status of any other children.  </p>
 </blockquote>
-<h2 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h2><p>宏定义简单点说就是查找替换，但是如果如此理解，那么只说对了一半，C中的宏分为两类，<strong>对象宏</strong>和<strong>函数宏</strong>。</p>
-<h2 id="对象宏"><a href="#对象宏" class="headerlink" title="对象宏"></a>对象宏</h2><p>对象宏一般用来定义一些常数，比如：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PI 3.14159</span></span><br></pre></td></tr></table></figure></p>
-<p><code>define</code> 关键字表明即将开始一个宏定义，仅接着<code>PI</code>是宏的名字，空格之后的数字是内容。类似这样<code>#define X A</code>的宏是比较简单的，会在编译期间，将X替换为A，这个过程称之为展开。</p>
-<h2 id="函数宏"><a href="#函数宏" class="headerlink" title="函数宏"></a>函数宏</h2><p>函数宏是用得最多的，函数宏可以节省大量的工作量。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MIN(A, B) 	A &lt; B ? A : B</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> a = MIN(<span class="number">1</span>, <span class="number">2</span>)；</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d"</span>, a); =&gt; <span class="number">1</span></span><br></pre></td></tr></table></figure></p>
-<p>输出正确，可以打包么？<br>在实际使用中会出问题么，肯定会出问题。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">2</span> * MIN(<span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line"><span class="comment">//=&gt; int a = 2 * 3 &lt; 4 ? 3 : 4;</span></span><br><span class="line"><span class="comment">//=&gt; int a = 6 &lt; 4 ? 3 : 4;</span></span><br><span class="line"><span class="comment">//=&gt; int a = 4;</span></span><br></pre></td></tr></table></figure></p>
-<p>现在知道原因了，我因为展开后运算符优先级的问题，乘法先被运算了，修正简单加个括号就行了</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MIN(A, B) (A &lt; B ? A : B)</span></span><br></pre></td></tr></table></figure>
-<p>仅仅如此么，如果我们执行 <code>MIN(3, 4 &lt; 5 ? 4 : 5)</code> 发现结果为4，展开宏后发现，展开式时链接符号和被展开式中的运算符号优先级相同，导致计算顺序发生变化。所以还得再严格点。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MIN(A, B) ((A) &lt; (B) ? (A) : (B))</span></span><br></pre></td></tr></table></figure>
-<p>由上可以知道，函数宏可以简单的将公式展开，这样能节省工作量么，如果仅仅如此，当然不行，不过如果运用好#与##符号就能节省大量的工作。</p>
-<h3 id="与-的使用"><a href="#与-的使用" class="headerlink" title="#与##的使用"></a>#与##的使用</h3><p># 会将宏参数转换为一个字符串,简单理解就是出现在宏定义中的<code>#</code>是把跟在后面的参数转换长一个字符串</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ERROR_LOG(msg) printf(<span class="string">"error:#msg\n"</span>)</span></span><br><span class="line">ERROR_LOG(<span class="string">"add"</span>) =&gt; <span class="built_in">printf</span>(<span class="string">"error:"</span>add<span class="string">""</span>)</span><br></pre></td></tr></table></figure>
-<p>## 是一种分割链接方式，它的作用是先分隔，然后进行强制连接</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TYPE(type, name) type name##_##type##_type</span></span><br><span class="line">TYPE(<span class="keyword">int</span>, a) =&gt; <span class="keyword">int</span> a_int_type</span><br></pre></td></tr></table></figure>
-<h3 id="如何节省工作量呢"><a href="#如何节省工作量呢" class="headerlink" title="如何节省工作量呢"></a>如何节省工作量呢</h3><p>比如有个数据结构体，对于结构体中的每一种数据都一个操作接口，常规实现方式是每个接口都实现一次，这样随着数据项的增加，工作量会直线增加，利用函数宏可以完美解决这个问题。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">typede <span class="keyword">struct</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">int</span> nData1;</span><br><span class="line">	<span class="keyword">int</span> nData2;</span><br><span class="line">	<span class="keyword">int</span> nData3;</span><br><span class="line">	...</span><br><span class="line">&#125;TData;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DEFADDDATA(name, type) \</span><br><span class="line">void Op##_##name(TData a,type data) \</span><br><span class="line">&#123; \</span><br><span class="line">	a.n##name += data;  	\</span><br><span class="line">&#125;</span></span><br><span class="line"></span><br><span class="line">DEFADDDATA(Data1, <span class="keyword">int</span>) 展开后为</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Op_Data1</span><span class="params">(TData a, <span class="keyword">int</span> data)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	a.nData1 += data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>按照上面所述，每增加一个数据项，只需要一次函数宏语句就可以解决，节省大量工作量。</p>
-<h3 id="函数宏的变长参数"><a href="#函数宏的变长参数" class="headerlink" title="函数宏的变长参数"></a>函数宏的变长参数</h3><p>宏可以像函数一样，带可变参数。语法如下：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> debug(format, ...)  printf(format, __VA_ARGS__)</span></span><br><span class="line">debug(<span class="string">"A message"</span>) =&gt; <span class="built_in">printf</span>(<span class="string">"A message"</span>,)</span><br></pre></td></tr></table></figure>
-<p>展开还有问题，因为字符串后面没有逗号<br>解决方法：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> debug(format, ...) printf(format, ##__VA_ARGS__)</span></span><br></pre></td></tr></table></figure>
-<p>这里，如果可变参数被忽略或为空，<code>##</code>操作将使预处理器去除掉它前面的那个逗号。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>宏定义是一把双刃剑，用好了节省大量工作量，并使代码结构清晰，如果不好，跳坑不断，代码结构混乱。<br>人生是在不断跳坑，填坑的循环中成长。加油！！</p>
+<p>看着挺晕的，但是如果对于<code>system</code>的执行过程了解的话,就很容易理解了,函数执行分为以下几个阶段。<br>阶段1:创建子进程等准备工作。如果失败，返回-1<br>阶段2:调用<code>/bin/sh</code>拉起脚本,如果拉起失败或者shell未正常执行,原因值被写入ret中<br>阶段3:如果<code>shell</code>脚本执行成功,<code>shell</code>脚本的返回值写入ret中  </p>
+<p>从上面可知,不管<code>shell</code>脚本返回什么值,只要调用了/bin/sh,并且执行过程没有被信号中断,都算正常结束。因为脚本是在子进程中执行的,所以要想获取脚本是否执行成功的方法只能用系统提供的两个宏。  </p>
+<blockquote>
+<p><code>WIFEXITED</code>用来判断阶段二的返回值<br><code>WEXITSTATUS</code>用来判断阶段三的返回值</p>
+</blockquote>
+<p>由于我们一般在<code>shell</code>中会通过返回值判断脚本是否执行成功，成功返回0，成功返回整数。所以判断一个脚本是否执行成功,应该满足三个条件:  </p>
+<ul>
+<li>-1 != ret</li>
+<li>WIFEXITED(ret)为真  </li>
+<li>0 == WEXITSTATUS(ret)</li>
+</ul>
+<p>注意：当<code>shell</code>脚本不存在时、没有执行条件等,前两个条件也会成立,此时WEXITSTATUS(ret)为127,所以shell脚本中不能将127作为返回值,shell脚本中的异常返回值最好从1开始递增,成功返回0。</p>
+<h2 id="实例代码"><a href="#实例代码" class="headerlink" title="实例代码"></a>实例代码</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span><br><span class="line"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pid_t</span> status;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    status = system(<span class="string">"./test.sh"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="number">-1</span> == status)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"system error!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"exit status value = [0x%x]\n"</span>, status);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (WIFEXITED(status))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="number">0</span> == WEXITSTATUS(status))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"run shell script successfully.\n"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"run shell script fail, script exit code: %d\n"</span>, WEXITSTATUS(status));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"exit status = [%d]\n"</span>, WEXITSTATUS(status));</span><br><span class="line">        &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     return <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>system</code>用起来,看则简单，实则不那么简单,有很多隐藏的坑,需要自己深入理解原理,才能更好地使用,也可以用其他实现方式完成相同的功能。<br>最后对自己说,多写,多思,多总结</p>
 
       
     </div>
@@ -377,13 +372,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/05/06/C_Define/">C/C++ 宏定义使用</a></p>
+        <p><span>本文标题:</span><a href="/2016/11/26/system/">Linux system 函数</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">小小小码农</a></p>
-        <p><span>发布时间:</span>2016-05-06, 15:51:02</p>
-        <p><span>最后更新:</span>2016-11-26, 16:26:04</p>
+        <p><span>发布时间:</span>2016-11-26, 17:48:42</p>
+        <p><span>最后更新:</span>2016-11-26, 18:37:21</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/05/06/C_Define/" title="C/C++ 宏定义使用">http://cppdemo.com/2016/05/06/C_Define/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://cppdemo.com/2016/05/06/C_Define/　　作者: 小小小码农" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/11/26/system/" title="Linux system 函数">http://cppdemo.com/2016/11/26/system/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://cppdemo.com/2016/11/26/system/　　作者: 小小小码农" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -395,16 +390,10 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2016/05/21/redis-string/">
-                    Redis 数据结构之 String
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2016/05/02/hello-world/">
-                    Hello World
+                <a href="/2016/11/21/signal/">
+                    Linux 信号量
                 </a>
             </div>
         
@@ -416,7 +405,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#入门"><span class="toc-number">1.</span> <span class="toc-text">入门</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对象宏"><span class="toc-number">2.</span> <span class="toc-text">对象宏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数宏"><span class="toc-number">3.</span> <span class="toc-text">函数宏</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#与-的使用"><span class="toc-number">3.1.</span> <span class="toc-text">#与##的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何节省工作量呢"><span class="toc-number">3.2.</span> <span class="toc-text">如何节省工作量呢</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数宏的变长参数"><span class="toc-number">3.3.</span> <span class="toc-text">函数宏的变长参数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#system-函数说明"><span class="toc-number">1.</span> <span class="toc-text">system 函数说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何判断脚本是否执行成功"><span class="toc-number">2.</span> <span class="toc-text">如何判断脚本是否执行成功</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#system-返回值说明"><span class="toc-number">3.</span> <span class="toc-text">system 返回值说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实例代码"><span class="toc-number">4.</span> <span class="toc-text">实例代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
         
     </div>
     <style>
@@ -443,7 +432,7 @@
     
       <div class="duoshuo" id="comments">
     <div id="comment-box" ></div>
-    <div class="ds-thread" id="ds-thread" data-thread-key="2016/05/06/C_Define/" data-title="C/C++ 宏定义使用" data-url="http://cppdemo.com/2016/05/06/C_Define/"></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/11/26/system/" data-title="Linux system 函数" data-url="http://cppdemo.com/2016/11/26/system/"></div>
     <script>
         var duoshuoQuery = {short_name:"xiaoxiaoxiaocoder"};
         var loadComment = function(){
@@ -466,15 +455,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/05/21/redis-string/" title="上一篇: Redis 数据结构之 String">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2016/05/02/hello-world/" title="下一篇: Hello World">
+            <a href="/2016/11/21/signal/" title="下一篇: Linux 信号量">
                 <i class="fa fa-angle-right"></i>
             </a>
         
