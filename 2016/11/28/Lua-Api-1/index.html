@@ -15,28 +15,16 @@
 
 
 
-<meta name="description" content="前言Redis作为cache服务器，支持多种数据结构，String、List、Hash、Set、Zset。多种数据结构的存在，使得Redis适用于多种业务,Redis的适用也越发广泛。又过了一周，今天我们来介绍Redis中的数据结构Hash的操作命令。
-
-数据结构简介Hash数据结构即数据存储为field、value的格式存储，支持针对指定的field所对应的value操作。
-
-命令简介">
+<meta name="description" content="最近工作中用到了Lua作为脚本语言由C/C++宿主语言调用,因为之前没用了解过Lua,在使用过程中遇到不少不懂得地方,因此决定花一段时间好好了解下Lua与C交互的API使用方式,本篇文章为第一篇。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Redis 数据结构之 hash">
-<meta property="og:url" content="http://cppdemo.com/2016/06/04/redis-hash/index.html">
+<meta property="og:title" content="Lua_Api_1">
+<meta property="og:url" content="http://cppdemo.com/2016/11/28/Lua-Api-1/index.html">
 <meta property="og:site_name" content="小小小码农">
-<meta property="og:description" content="前言Redis作为cache服务器，支持多种数据结构，String、List、Hash、Set、Zset。多种数据结构的存在，使得Redis适用于多种业务,Redis的适用也越发广泛。又过了一周，今天我们来介绍Redis中的数据结构Hash的操作命令。
-
-数据结构简介Hash数据结构即数据存储为field、value的格式存储，支持针对指定的field所对应的value操作。
-
-命令简介">
-<meta property="og:updated_time" content="2016-11-26T08:27:05.000Z">
+<meta property="og:description" content="最近工作中用到了Lua作为脚本语言由C/C++宿主语言调用,因为之前没用了解过Lua,在使用过程中遇到不少不懂得地方,因此决定花一段时间好好了解下Lua与C交互的API使用方式,本篇文章为第一篇。">
+<meta property="og:updated_time" content="2016-11-28T13:52:03.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Redis 数据结构之 hash">
-<meta name="twitter:description" content="前言Redis作为cache服务器，支持多种数据结构，String、List、Hash、Set、Zset。多种数据结构的存在，使得Redis适用于多种业务,Redis的适用也越发广泛。又过了一周，今天我们来介绍Redis中的数据结构Hash的操作命令。
-
-数据结构简介Hash数据结构即数据存储为field、value的格式存储，支持针对指定的field所对应的value操作。
-
-命令简介">
+<meta name="twitter:title" content="Lua_Api_1">
+<meta name="twitter:description" content="最近工作中用到了Lua作为脚本语言由C/C++宿主语言调用,因为之前没用了解过Lua,在使用过程中遇到不少不懂得地方,因此决定花一段时间好好了解下Lua与C交互的API使用方式,本篇文章为第一篇。">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -66,7 +54,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>Redis 数据结构之 hash | 小小小码农</title>
+<title>Lua_Api_1 | 小小小码农</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -272,11 +260,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-redis-hash" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Lua-Api-1" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/06/04/redis-hash/" class="article-date">
-      <time datetime="2016-06-04T05:26:34.000Z" itemprop="datePublished">2016-06-04</time>
+      <a href="/2016/11/28/Lua-Api-1/" class="article-date">
+      <time datetime="2016-11-28T12:49:26.000Z" itemprop="datePublished">2016-11-28</time>
 </a>
 
 
@@ -291,7 +279,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Redis 数据结构之 hash
+      Lua_Api_1
     </h1>
   
 
@@ -300,13 +288,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Redis/">Redis</a>
+    <a class="article-category-link" href="/categories/Lua/">Lua</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis-命令/">redis 命令</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/笔记/">笔记</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C-C/">C/C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lua/">Lua</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/笔记/">笔记</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -316,82 +304,20 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><strong>Redis</strong>作为cache服务器，支持多种数据结构，String、List、Hash、Set、Zset。多种数据结构的存在，使得<code>Redis</code>适用于多种业务,Redis的适用也越发广泛。又过了一周，今天我们来介绍Redis中的数据结构<code>Hash</code>的操作命令。</p>
-<hr>
-<h2 id="数据结构简介"><a href="#数据结构简介" class="headerlink" title="数据结构简介"></a>数据结构简介</h2><p><code>Hash</code>数据结构即数据存储为<code>field</code>、<code>value</code>的格式存储，支持针对指定的field所对应的value操作。</p>
-<hr>
-<h2 id="命令简介"><a href="#命令简介" class="headerlink" title="命令简介"></a>命令简介</h2><a id="more"></a>
-<h3 id="HSET-命令"><a href="#HSET-命令" class="headerlink" title="HSET 命令"></a>HSET 命令</h3><p><code>语法</code>: HSET key field value<br><code>作用</code>: 设置一对 field value<br><code>返回</code>: 如果field不存在则设置成功返回<code>1</code>,否则更新value则返回<code>0</code></p>
+        <p>最近工作中用到了<code>Lua</code>作为脚本语言由C/C++宿主语言调用,因为之前没用了解过<code>Lua</code>,在使用过程中遇到不少不懂得地方,因此决定花一段时间好好了解下<code>Lua</code>与C交互的API使用方式,本篇文章为第一篇。</p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Lua 使用一个虚拟栈来和 C 互传值。栈上每一个元素都是一个 Lua 值。(nil,数字,字符串,等等)。无论何时Lua调用C,被调用的函数都得到一个新的栈,这个栈独立于 C 函数本身的栈,也独立于之前的 Lua 栈。它里面包含了 Lua 传递给 C 函数的所有参数,而 C 函数则把要返回的结果放入这个栈以返回给调用者。  </p>
+<p>Lua 栈可以使用<code>索引</code>来指向栈上得任何元素:正的索引是栈上得绝对位置(从1开始);负的索引则从栈顶开始的偏移量。  </p>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="获取栈顶索引"><a href="#获取栈顶索引" class="headerlink" title="获取栈顶索引"></a>获取栈顶索引</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lua_gettop</span> <span class="params">(lua_State *L)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>作用:返回栈顶元素的索引。因为索引是从1开始,所以这个结果等同于栈上得元素个数(返回0表示堆栈为空)</p>
+<h3 id="设置栈顶索引"><a href="#设置栈顶索引" class="headerlink" title="设置栈顶索引"></a>设置栈顶索引</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lua_settop</span> <span class="params">(lua_State *L, <span class="keyword">int</span> index)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>作用:它将栈顶的索引设为这个索引,如果新的栈顶索引比原来大,超出部分的元素会被填为nil。如果新索引为0,则移除所有栈元素。</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>C 使用 Lua API<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;lua.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;lauxlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;lualib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    lua_State *L = lua_open();</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"begininit : stack top = %d\n"</span>, lua_gettop(L));</span><br><span class="line"></span><br><span class="line">    lua_pushnumber(L, <span class="number">5</span>);</span><br><span class="line">    lua_pushnumber(L, <span class="number">4</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"pushargvs : stack top = %d\n"</span>, lua_gettop(L));</span><br><span class="line"></span><br><span class="line">    lua_settop(L, <span class="number">1</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"settopfun : stack top = %d\n"</span>, lua_gettop(L));</span><br><span class="line">    lua_settop(L, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"settopfun : stack top = %d\n"</span>, lua_gettop(L));</span><br><span class="line"></span><br><span class="line">    return <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>编译执行输出为：</p>
 <blockquote>
-<p>127.0.0.1:6379&gt; HSET key field value<br>(integer) 1<br>127.0.0.1:6379&gt; HSET key field valuevalue<br>(integer) 0  </p>
+<p>begininit : stack top = 0<br>pushargvs : stack top = 2<br>settopfun : stack top = 1<br>settopfun : stack top = 0  </p>
 </blockquote>
-<hr>
-<h3 id="HSETNX-命令"><a href="#HSETNX-命令" class="headerlink" title="HSETNX 命令"></a>HSETNX 命令</h3><p><code>语法</code>: HSETNX key field value<br><code>作用</code>: 设置一对 field value,如果field已经存在,则不做任何操作<br><code>返回</code>: 如果field不存在则设置成功返回<code>1</code>,否则不做人和网操作返回<code>0</code></p>
-<blockquote>
-<p>127.0.0.1:6379&gt; HSETNX key field value<br>(integer) 0<br>127.0.0.1:6379&gt; HSETNX key field1 value1<br>(integer) 1  </p>
-</blockquote>
-<hr>
-<h3 id="HMSET-命令"><a href="#HMSET-命令" class="headerlink" title="HMSET 命令"></a>HMSET 命令</h3><p><code>语法</code>: HMSET key f1 v1 [f2 v2 …]<br><code>作用</code>: 设置多对field、value值<br><code>返回</code>: 返货<code>OK</code></p>
-<blockquote>
-<p>127.0.0.1:6379&gt; HMSET key f1 v1 f2 v2 f3 v3<br>OK</p>
-</blockquote>
-<hr>
-<h3 id="HINCRY-命令"><a href="#HINCRY-命令" class="headerlink" title="HINCRY 命令"></a>HINCRY 命令</h3><p><code>语法</code>: HINCRBY key field data<br><code>作用</code>: 给指定 field 对应的 value 值加上 data 数值<br><code>返回</code>: 成功返回操作后的 value 值, 失败返回对应的错误</p>
-<blockquote>
-<p>127.0.0.1:6379&gt; HINCRBY key f1 100<br>(error) ERR hash value is not an integer //f1 对应的值不为整型<br>127.0.0.1:6379&gt; HSET key f11 100<br>(integer) 1<br>127.0.0.1:6379&gt; HINCRBY key f11 100<br>(integer) 200</p>
-</blockquote>
-<hr>
-<h3 id="HINCRYFLOAT-命令"><a href="#HINCRYFLOAT-命令" class="headerlink" title="HINCRYFLOAT 命令"></a>HINCRYFLOAT 命令</h3><p><code>语法</code>: HINCRBYFLOAT key field data(支持浮点数)<br><code>作用</code>: 给指定 field 对应的 value 值加上 data 数值<br><code>返回</code>: 成功返回操作后的 value 值, 失败返回对应的错误</p>
-<blockquote>
-<p>127.0.0.1:6379&gt; HINCRBYFLOAT key f11 100.11<br>“300.10999999999999999”<br>127.0.0.1:6379&gt; HINCRBYFLOAT key f1 100.11<br>(error) ERR hash value is not a valid float</p>
-</blockquote>
-<hr>
-<h3 id="HGET-命令"><a href="#HGET-命令" class="headerlink" title="HGET 命令"></a>HGET 命令</h3><p><code>语法</code>: HGET key field<br><code>作用</code>: 返回指定field对应的value值<br><code>返回</code>: 如果key不存在或field不存在则返回NULL,否则返回对应的value</p>
-<blockquote>
-<p>127.0.0.1:6379&gt; HGET keykey field<br>(nil)<br>127.0.0.1:6379&gt; HGET key field<br>“valuevalue”  </p>
-</blockquote>
-<hr>
-<h3 id="HMGET-命令"><a href="#HMGET-命令" class="headerlink" title="HMGET 命令"></a>HMGET 命令</h3><p><code>语法</code>: HMGET key field1 [field2 field3 …]<br><code>作用</code>: 获取多个指定的field对应的value<br><code>返回</code>: field存在则返回对应的value，否则返回NULL  </p>
-<blockquote>
-<p>127.0.0.1:6379&gt; HMGET key field f1 f2 f333 f4<br>1) “valuevalue”<br>2) “v1”<br>3) “v2”<br>4) (nil)<br>5) (nil)  </p>
-</blockquote>
-<hr>
-<h3 id="HDEL-命令"><a href="#HDEL-命令" class="headerlink" title="HDEL 命令"></a>HDEL 命令</h3><p><code>语法</code>: HDEL key field1 [field2 fiedl3 …]<br><code>作用</code>: 删除指定的 field<br><code>返回</code>: 返回删除的 field 个数</p>
-<blockquote>
-<p>127.0.0.1:6379&gt; HDEL key field f1 f2 f333 f4<br>(integer) 3</p>
-</blockquote>
-<hr>
-<h3 id="HLEN-命令"><a href="#HLEN-命令" class="headerlink" title="HLEN 命令"></a>HLEN 命令</h3><p><code>语法</code>: HLEN key<br><code>作用</code>: 获取指定hash中元素的个数<br><code>返回</code>: 返回元素个数  </p>
-<blockquote>
-<p>127.0.0.1:6379&gt; HLEN key<br>(integer) 3</p>
-</blockquote>
-<hr>
-<h3 id="HKEYS-命令"><a href="#HKEYS-命令" class="headerlink" title="HKEYS 命令"></a>HKEYS 命令</h3><p><code>语法</code>: HKEYS key<br><code>作用</code>: 获取指定hash中所有field值<br><code>返回</code>: 返回所有的field值</p>
-<blockquote>
-<p>127.0.0.1:6379&gt; HKEYS key<br>1) “field1”<br>2) “f3”<br>3) “f11”  </p>
-</blockquote>
-<hr>
-<h3 id="HVALS-命令"><a href="#HVALS-命令" class="headerlink" title="HVALS 命令"></a>HVALS 命令</h3><p><code>语法</code>: HVALS key<br><code>作用</code>: 获取指定hash中所有value值<br><code>返回</code>: 返回所有的value值</p>
-<blockquote>
-<p>127.0.0.1:6379&gt; HVALS key<br>1) “value1”<br>2) “v3”<br>3) “300.10999999999999999”  </p>
-</blockquote>
-<hr>
-<h3 id="HGETALL-命令"><a href="#HGETALL-命令" class="headerlink" title="HGETALL 命令"></a>HGETALL 命令</h3><p><code>语法</code>: HGETALL key<br><code>作用</code>: 获取指定hash中所有field、value值<br><code>返回</code>: 返回所有的field、value值</p>
-<blockquote>
-<p>127.0.0.1:6379&gt; HGETALL key<br>1) “field1”<br>2) “value1”<br>3) “f3”<br>4) “v3”<br>5) “f11”<br>6) “300.10999999999999999”  </p>
-</blockquote>
-<hr>
-<h3 id="HEXISTS-命令"><a href="#HEXISTS-命令" class="headerlink" title="HEXISTS 命令"></a>HEXISTS 命令</h3><p><code>语法</code>: HEXISTS key field<br><code>作用</code>: 检查指定的field是否存在<br><code>返回</code>: fiedl存在返回<code>1</code>,不存在返回<code>0</code>  </p>
-<blockquote>
-<p>127.0.0.1:6379&gt; HEXISTS key f3<br>(integer) 1<br>127.0.0.1:6379&gt; HEXISTS key f333<br>(integer) 0  </p>
-</blockquote>
-<hr>
-<h3 id="HSCAN-命令"><a href="#HSCAN-命令" class="headerlink" title="HSCAN 命令"></a>HSCAN 命令</h3><p><code>语法</code>: HSCAN key cursor<br><code>作用</code>: 遍历hash<br><code>返回</code>: 返回部分Hash节点数据</p>
-<blockquote>
-<p>127.0.0.1:6379&gt; HSCAN key 0<br>1) “0”<br>2) 1) “field1”<br>   2) “value1”<br>   3) “f3”<br>   4) “v3”<br>   5) “f11”<br>   6) “300.10999999999999999”  </p>
-</blockquote>
-<hr>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>Hash</code>主要用来存储field-value值型的数据，可以很方便的存储需要映射的数据，且支持动态添加数据，很是方便。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Lua 与 C 之间的操作由栈来传递数据,操作的时候,一定要注意栈顶是否溢出!!</p>
 
       
     </div>
@@ -427,13 +353,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/06/04/redis-hash/">Redis 数据结构之 hash</a></p>
+        <p><span>本文标题:</span><a href="/2016/11/28/Lua-Api-1/">Lua_Api_1</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">小小小码农</a></p>
-        <p><span>发布时间:</span>2016-06-04, 13:26:34</p>
-        <p><span>最后更新:</span>2016-11-26, 16:27:05</p>
+        <p><span>发布时间:</span>2016-11-28, 20:49:26</p>
+        <p><span>最后更新:</span>2016-11-28, 21:52:03</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/06/04/redis-hash/" title="Redis 数据结构之 hash">http://cppdemo.com/2016/06/04/redis-hash/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://cppdemo.com/2016/06/04/redis-hash/　　作者: 小小小码农" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/11/28/Lua-Api-1/" title="Lua_Api_1">http://cppdemo.com/2016/11/28/Lua-Api-1/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://cppdemo.com/2016/11/28/Lua-Api-1/　　作者: 小小小码农" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -445,16 +371,10 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2016/06/09/duanwu/">
-                    写在端午
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2016/05/28/redis-list/">
-                    Redis 数据结构之 list
+                <a href="/2016/11/26/system/">
+                    Linux system 函数
                 </a>
             </div>
         
@@ -466,7 +386,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据结构简介"><span class="toc-number">2.</span> <span class="toc-text">数据结构简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令简介"><span class="toc-number">3.</span> <span class="toc-text">命令简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HSET-命令"><span class="toc-number">3.1.</span> <span class="toc-text">HSET 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HSETNX-命令"><span class="toc-number">3.2.</span> <span class="toc-text">HSETNX 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HMSET-命令"><span class="toc-number">3.3.</span> <span class="toc-text">HMSET 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HINCRY-命令"><span class="toc-number">3.4.</span> <span class="toc-text">HINCRY 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HINCRYFLOAT-命令"><span class="toc-number">3.5.</span> <span class="toc-text">HINCRYFLOAT 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HGET-命令"><span class="toc-number">3.6.</span> <span class="toc-text">HGET 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HMGET-命令"><span class="toc-number">3.7.</span> <span class="toc-text">HMGET 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HDEL-命令"><span class="toc-number">3.8.</span> <span class="toc-text">HDEL 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HLEN-命令"><span class="toc-number">3.9.</span> <span class="toc-text">HLEN 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HKEYS-命令"><span class="toc-number">3.10.</span> <span class="toc-text">HKEYS 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HVALS-命令"><span class="toc-number">3.11.</span> <span class="toc-text">HVALS 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HGETALL-命令"><span class="toc-number">3.12.</span> <span class="toc-text">HGETALL 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HEXISTS-命令"><span class="toc-number">3.13.</span> <span class="toc-text">HEXISTS 命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HSCAN-命令"><span class="toc-number">3.14.</span> <span class="toc-text">HSCAN 命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数"><span class="toc-number">2.</span> <span class="toc-text">函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取栈顶索引"><span class="toc-number">2.1.</span> <span class="toc-text">获取栈顶索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置栈顶索引"><span class="toc-number">2.2.</span> <span class="toc-text">设置栈顶索引</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#示例"><span class="toc-number">3.</span> <span class="toc-text">示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
         
     </div>
     <style>
@@ -493,7 +413,7 @@
     
       <div class="duoshuo" id="comments">
     <div id="comment-box" ></div>
-    <div class="ds-thread" id="ds-thread" data-thread-key="2016/06/04/redis-hash/" data-title="Redis 数据结构之 hash" data-url="http://cppdemo.com/2016/06/04/redis-hash/"></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2016/11/28/Lua-Api-1/" data-title="Lua_Api_1" data-url="http://cppdemo.com/2016/11/28/Lua-Api-1/"></div>
     <script>
         var duoshuoQuery = {short_name:"xiaoxiaoxiaocoder"};
         var loadComment = function(){
@@ -516,15 +436,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/06/09/duanwu/" title="上一篇: 写在端午">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2016/05/28/redis-list/" title="下一篇: Redis 数据结构之 list">
+            <a href="/2016/11/26/system/" title="下一篇: Linux system 函数">
                 <i class="fa fa-angle-right"></i>
             </a>
         
